@@ -1,4 +1,5 @@
 using Ma.API.Data;
+using Ma.API.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 #region Database
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
 var connectionString = builder.Configuration.GetConnectionString("postgres");
 builder.Services.AddNpgsql<ApplicationContext>(connectionString);

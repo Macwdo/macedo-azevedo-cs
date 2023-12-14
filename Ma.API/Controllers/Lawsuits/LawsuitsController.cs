@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Ma.API.Entities;
+using Ma.API.Entities.Lawsuit;
 using Ma.API.Repository;
 
 namespace Ma.API.Controllers.Lawsuits;
@@ -10,9 +11,9 @@ namespace Ma.API.Controllers.Lawsuits;
 public class LawsuitsController: ControllerBase
 {
     private ILogger<LawsuitsController> _logger;
-    private IRepository<Lawsuit, int> _repository;
+    private IRepository<Lawsuit> _repository;
 
-    public LawsuitsController(ILogger<LawsuitsController> logger, IRepository<Lawsuit, int> repository)
+    public LawsuitsController(ILogger<LawsuitsController> logger, IRepository<Lawsuit> repository)
     {
         _logger = logger;
         _repository = repository;
@@ -21,8 +22,8 @@ public class LawsuitsController: ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        var lawsuits = _repository.Get();
-        return Ok(new {lawsuits});
+        var lawsuits = _repository.Get().ToList();
+        return Ok(lawsuits);
     }
 
 }

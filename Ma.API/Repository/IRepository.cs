@@ -1,19 +1,20 @@
 namespace Ma.API.Repository;
 
-public interface IRepository<T, in TU> where T : class
+public interface IRepository<TEntity> where TEntity : class
 {
-    T Save(T entity);
-    IQueryable Queryable();
+    void Save(TEntity entity);
+    IQueryable GetQueryable();
 
-    T Create(T entity);
-    IEnumerable<T> Get();
-    T Get(TU id);
-    T Update(T entity);
-    void Delete(TU id);
+    void Create(TEntity entity);
+    IEnumerable<TEntity> Get();
+    IEnumerable<TEntity> GetAllReadOnly();
+    TEntity? Get(int id);
+    TEntity Update(TEntity entity);
+    void Delete(TEntity entity);
 
-    Task<T> CreateAsync(T entity);
-    Task<IEnumerable<T>> GetAsync();
-    Task<T> GetAsync(TU id);
-    Task<T> UpdateAsync(T entity);
-    Task DeleteAsync(TU id);
+    Task<TEntity> CreateAsync(TEntity entity);
+    Task<IEnumerable<TEntity>> GetAsync();
+    Task<TEntity> GetAsync(int id);
+    Task<TEntity> UpdateAsync(TEntity entity);
+    Task DeleteAsync(int id);
 }

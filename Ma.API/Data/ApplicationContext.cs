@@ -1,4 +1,5 @@
 using Ma.API.Entities;
+using Ma.API.Entities.Lawsuit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ma.API.Data ;

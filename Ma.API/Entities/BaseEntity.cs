@@ -6,7 +6,7 @@ namespace Ma.API.Entities;
 
 public class BaseEntity
 {
-    [Key]
+    [Key, Required]
     public int Id { get; set; }
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public DateTime CreatedAt { get; set; }

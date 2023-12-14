@@ -4,7 +4,7 @@ namespace Ma.API.Entities.Lawsuit;
 
 public class LawsuitFees
 {
-    public string Referent { get; set; }
+    public required string Referent { get; set; }
     public double Value { get; set; }
     public bool IsGain { get; set; } = true;
 
