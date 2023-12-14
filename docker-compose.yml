@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  db_ma_app_cs:
+    container_name: db_ma_app_cs
+    image: postgres:latest
+    volumes:
+      - postgres_data_cs:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_USER: postgres
+      POSTGRES_DB: db_app
+    ports:
+      - "5431:5432"
+
+  rmq_ma_app_cs:
+   container_name: rmq_ma_app_cs
+   image: rabbitmq:latest
+   restart: always
+   ports:
+     - 5673:5673
+     - 8083:15673
+
+volumes:
+  postgres_data_cs:
