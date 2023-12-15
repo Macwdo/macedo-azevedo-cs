@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ma.API.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20231214212532_test")]
-    partial class test
+    [Migration("20231215055317_initi")]
+    partial class initi
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,6 +90,81 @@ namespace Ma.API.Migrations
                     b.ToTable("Lawsuits");
                 });
 
+            modelBuilder.Entity("Ma.API.Entities.Lawsuit.LawsuitFees", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsGain")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("LawsuitId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LawyerId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Referent")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LawsuitId");
+
+                    b.HasIndex("LawyerId");
+
+                    b.ToTable("LawsuitFees");
+                });
+
+            modelBuilder.Entity("Ma.API.Entities.Lawsuit.LawsuitFiles", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FileUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("LawsuitId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LawsuitId");
+
+                    b.ToTable("LawsuitFiles");
+                });
+
             modelBuilder.Entity("Ma.API.Entities.Lawyer", b =>
                 {
                     b.Property<int>("Id")
@@ -129,7 +204,7 @@ namespace Ma.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Lawyer");
+                    b.ToTable("Lawyers");
                 });
 
             modelBuilder.Entity("Ma.API.Entities.Registry", b =>
@@ -165,7 +240,7 @@ namespace Ma.API.Migrations
 
                     b.HasIndex("LawyerResponsibleId");
 
-                    b.ToTable("Registry");
+                    b.ToTable("Registries");
                 });
 
             modelBuilder.Entity("Ma.API.Entities.User", b =>
@@ -231,6 +306,36 @@ namespace Ma.API.Migrations
                     b.Navigation("IndicatedBy");
 
                     b.Navigation("ResponsibleLawyer");
+                });
+
+            modelBuilder.Entity("Ma.API.Entities.Lawsuit.LawsuitFees", b =>
+                {
+                    b.HasOne("Ma.API.Entities.Lawsuit.Lawsuit", "Lawsuit")
+                        .WithMany()
+                        .HasForeignKey("LawsuitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ma.API.Entities.Lawyer", "Lawyer")
+                        .WithMany()
+                        .HasForeignKey("LawyerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lawsuit");
+
+                    b.Navigation("Lawyer");
+                });
+
+            modelBuilder.Entity("Ma.API.Entities.Lawsuit.LawsuitFiles", b =>
+                {
+                    b.HasOne("Ma.API.Entities.Lawsuit.Lawsuit", "Lawsuit")
+                        .WithMany()
+                        .HasForeignKey("LawsuitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lawsuit");
                 });
 
             modelBuilder.Entity("Ma.API.Entities.Lawyer", b =>

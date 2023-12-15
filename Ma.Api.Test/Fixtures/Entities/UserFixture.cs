@@ -17,14 +17,6 @@ public static class UserFixture
         };
     }
 
-    public static IEnumerable<User> Users(int quantity)
-    {
-        var users = new List<User>();
-        for (var i = 0; i < quantity; i++)
-        {
-            users.Add(User(i));
-        }
-        return users;
-    }
+    public static IEnumerable<User> Users(int quantity) => Enumerable.Range(0, quantity).Select(User);
 
 }

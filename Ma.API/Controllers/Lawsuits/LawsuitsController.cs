@@ -22,7 +22,7 @@ public class LawsuitsController: ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        var lawsuits = _repository.Get().ToList();
+        var lawsuits = _repository.GetAllReadOnly().ToList();
         return Ok(lawsuits);
     }
 

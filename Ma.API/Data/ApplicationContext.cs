@@ -11,5 +11,12 @@ public class ApplicationContext: DbContext
     }
 
     public DbSet<Lawsuit> Lawsuits => Set<Lawsuit>();
+
+    public DbSet<LawsuitFees> LawsuitFees => Set<LawsuitFees>();
+    public DbSet<LawsuitFiles> LawsuitFiles => Set<LawsuitFiles>();
+
+
+    public DbSet<Registry> Registries => Set<Registry>();
+    public DbSet<Lawyer> Lawyers => Set<Lawyer>();
     public DbSet<User> Users => Set<User>();
 }

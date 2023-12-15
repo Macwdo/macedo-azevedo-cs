@@ -7,7 +7,7 @@ public static class LawyerFixture
     public static Lawyer Lawyer (int id, User? user) => new Lawyer
     {
         Cpf = $"XXX.XXX.XXX-{id}",
-        Email = $"daniel.macedo{id}@email.com",
+        Email = $"lawyer.something{id}@email.com",
         Name = $"Lawyer {id}",
         Oab = $"XXXXXX-{id}",
         Id = id,
@@ -19,18 +19,8 @@ public static class LawyerFixture
 
     public static IEnumerable<Lawyer> Lawyers (int quantity, bool user=true)
     {
-        var lawyers = new List<Lawyer>();
-        if (user)
-        {
-            var users = UserFixture.Users(quantity).ToList();
-
-        }
-
-        for (var i = 0; i < quantity; i++)
-        {
-            lawyers.Add(Lawyer(i, users[i]));
-        }
-
+        var users = user ? UserFixture.Users(quantity): new List<User>();
+        var lawyers = Enumerable.Range(0, quantity).Select(i => Lawyer(i, users.ElementAtOrDefault(i)));
         return lawyers;
     }
 }

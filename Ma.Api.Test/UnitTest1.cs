@@ -2,7 +2,9 @@ using FluentAssertions;
 using Ma.API.Controllers.Lawsuits;
 using Ma.API.Data;
 using Ma.API.Entities;
+using Ma.API.Entities.Lawsuit;
 using Ma.API.Repository;
+using Ma.Api.Test.Fixtures.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -17,7 +19,7 @@ public class LawsuitControllerTest
     {
         // Arrange
         var mockControllerLog = new Mock<ILogger<LawsuitsController>>();
-        var mockControllerRepository = new Mock<IRepository<Lawsuit, int>>();
+        var mockControllerRepository = new Mock<IRepository<Lawsuit>>();
         mockControllerRepository
             .Setup(r => r.Get())
             .Returns(new List<Lawsuit>()
@@ -44,7 +46,10 @@ public class LawsuitControllerTest
                     Id = 1,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
-                    LawsuitCode = "12321"
+                    LawsuitCode = "12321",
+                    Subject = "null",
+                    Observation = "null",
+                    Client = RegistryFixture.Registry(1)
                 }
             });
         // Act

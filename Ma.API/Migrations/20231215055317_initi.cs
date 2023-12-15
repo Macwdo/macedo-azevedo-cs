@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ma.API.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class initi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +30,7 @@ namespace Ma.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Lawyer",
+                name: "Lawyers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -45,16 +45,16 @@ namespace Ma.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Lawyer", x => x.Id);
+                    table.PrimaryKey("PK_Lawyers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Lawyer_Users_UserId",
+                        name: "FK_Lawyers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Registry",
+                name: "Registries",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -68,11 +68,11 @@ namespace Ma.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Registry", x => x.Id);
+                    table.PrimaryKey("PK_Registries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Registry_Lawyer_LawyerResponsibleId",
+                        name: "FK_Registries_Lawyers_LawyerResponsibleId",
                         column: x => x.LawyerResponsibleId,
-                        principalTable: "Lawyer",
+                        principalTable: "Lawyers",
                         principalColumn: "Id");
                 });
 
@@ -100,29 +100,98 @@ namespace Ma.API.Migrations
                 {
                     table.PrimaryKey("PK_Lawsuits", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Lawsuits_Lawyer_ResponsibleLawyerId",
+                        name: "FK_Lawsuits_Lawyers_ResponsibleLawyerId",
                         column: x => x.ResponsibleLawyerId,
-                        principalTable: "Lawyer",
+                        principalTable: "Lawyers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Lawsuits_Registry_AdversePartId",
+                        name: "FK_Lawsuits_Registries_AdversePartId",
                         column: x => x.AdversePartId,
-                        principalTable: "Registry",
+                        principalTable: "Registries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Lawsuits_Registry_ClientId",
+                        name: "FK_Lawsuits_Registries_ClientId",
                         column: x => x.ClientId,
-                        principalTable: "Registry",
+                        principalTable: "Registries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Lawsuits_Registry_IndicatedById",
+                        name: "FK_Lawsuits_Registries_IndicatedById",
                         column: x => x.IndicatedById,
-                        principalTable: "Registry",
+                        principalTable: "Registries",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.CreateTable(
+                name: "LawsuitFees",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Referent = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<double>(type: "double precision", nullable: false),
+                    IsGain = table.Column<bool>(type: "boolean", nullable: false),
+                    LawsuitId = table.Column<int>(type: "integer", nullable: false),
+                    LawyerId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LawsuitFees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LawsuitFees_Lawsuits_LawsuitId",
+                        column: x => x.LawsuitId,
+                        principalTable: "Lawsuits",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LawsuitFees_Lawyers_LawyerId",
+                        column: x => x.LawyerId,
+                        principalTable: "Lawyers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LawsuitFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FileName = table.Column<string>(type: "text", nullable: false),
+                    FileUrl = table.Column<string>(type: "text", nullable: false),
+                    LawsuitId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LawsuitFiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LawsuitFiles_Lawsuits_LawsuitId",
+                        column: x => x.LawsuitId,
+                        principalTable: "Lawsuits",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LawsuitFees_LawsuitId",
+                table: "LawsuitFees",
+                column: "LawsuitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LawsuitFees_LawyerId",
+                table: "LawsuitFees",
+                column: "LawyerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LawsuitFiles_LawsuitId",
+                table: "LawsuitFiles",
+                column: "LawsuitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Lawsuits_AdversePartId",
@@ -145,13 +214,13 @@ namespace Ma.API.Migrations
                 column: "ResponsibleLawyerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lawyer_UserId",
-                table: "Lawyer",
+                name: "IX_Lawyers_UserId",
+                table: "Lawyers",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Registry_LawyerResponsibleId",
-                table: "Registry",
+                name: "IX_Registries_LawyerResponsibleId",
+                table: "Registries",
                 column: "LawyerResponsibleId");
         }
 
@@ -159,13 +228,19 @@ namespace Ma.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "LawsuitFees");
+
+            migrationBuilder.DropTable(
+                name: "LawsuitFiles");
+
+            migrationBuilder.DropTable(
                 name: "Lawsuits");
 
             migrationBuilder.DropTable(
-                name: "Registry");
+                name: "Registries");
 
             migrationBuilder.DropTable(
-                name: "Lawyer");
+                name: "Lawyers");
 
             migrationBuilder.DropTable(
                 name: "Users");
