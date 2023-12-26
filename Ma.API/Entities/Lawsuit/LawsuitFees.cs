@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ma.API.Entities.Lawsuit;
 
-public class LawsuitFees
+public class LawsuitFees: BaseEntity
 {
     public required string Referent { get; set; }
     public double Value { get; set; }
