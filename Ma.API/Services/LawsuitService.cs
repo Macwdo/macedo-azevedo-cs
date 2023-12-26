@@ -1,30 +1,32 @@
 using Ma.API.Data;
 using Ma.API.Entities;
+using Ma.API.Entities.Lawsuit;
+using Ma.API.Exceptions;
+using Ma.API.Repository;
 
 namespace Ma.API.Services;
 
 public class LawsuitService
 {
-    private readonly ApplicationContext _context;
-    private ILogger<LawsuitService> _logger;
+    private readonly IRepository<Lawsuit> _lawsuitRepository;
+    private readonly ILogger<LawsuitService> _logger;
 
-    public LawsuitService(Logger<LawsuitService> logger)
+    public LawsuitService(
+        ILogger<LawsuitService> logger,
+        IRepository<Lawsuit> lawsuitRepository
+        )
+
     {
         _logger = logger;
+        _lawsuitRepository = lawsuitRepository;
     }
 
-    public void MakeSomething()
+    public async Lawsuit? Get(int id)
     {
-        throw new Exception("Critical error inside service");
+        return _lawsuitRepository.Get(id);
+
     }
 
-    public void CreateUser()
-    {
-        _context.Users.Add(new User()
-        {
-            Name = "Teste",
-            Surname = "asdasdsa",
-            BirthDate = DateTime.Now,
-        });
-    }
+
+
 }
