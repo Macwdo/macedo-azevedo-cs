@@ -3,7 +3,7 @@ using Ma.API.Repository;
 
 namespace Ma.API.Services;
 
-public class LawsuitService
+public class LawsuitService: ILawsuitService
 {
     private readonly IRepository<Lawsuit> _repository;
     private readonly ILogger<LawsuitService> _logger;

@@ -9,7 +9,7 @@ namespace Ma.API.Services;
 // TODO: Add Caching
 // TODO: Add Logging
 // TODO: Add Tests
-public class RegistryService
+public class RegistryService: IRegistryService
 {
     private readonly IRepository<Registry> _repository;
     private readonly IMapper _mapper;

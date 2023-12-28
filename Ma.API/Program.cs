@@ -23,10 +23,10 @@ builder.Services.AddSwaggerGen();
 
 #region Services DI
 
-builder.Services.AddScoped<RegistryService>();
+builder.Services.AddScoped<IRegistryService, RegistryService>();
+builder.Services.AddScoped<ILawsuitService, LawsuitService>();
 
 #endregion
-
 
 #region Database
 
