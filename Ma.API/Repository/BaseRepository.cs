@@ -1,4 +1,5 @@
 using Ma.API.Data;
+using Ma.API.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ma.API.Repository;
@@ -14,7 +15,14 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : clas
 
     public void Save(TEntity entity)
     {
-        _context.SaveChanges();
+        try
+        {
+            _context.SaveChanges();
+        }
+        catch
+        {
+            throw new InternalException("Error trying to save changes");
+        }
     }
 
     public IQueryable GetQueryable()
@@ -22,10 +30,19 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : clas
         return _context.Set<TEntity>().AsQueryable();
     }
 
-    public void Create(TEntity entity)
+    public TEntity Create(TEntity entity)
     {
-        _context.Set<TEntity>().Add(entity);
-        _context.SaveChanges();
+        try
+        {
+            _context.Set<TEntity>().Add(entity);
+            _context.SaveChanges();
+            return entity;
+        }
+        catch (Exception)
+        {
+            throw new InternalException($"Error trying to create the entity: {entity}");
+        }
+
     }
 
     public IEnumerable<TEntity> Get()
@@ -45,15 +62,29 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : clas
 
     public TEntity Update(TEntity entity)
     {
-        _context.Set<TEntity>().Update(entity);
-        _context.SaveChanges();
+        try
+        {
+            _context.Set<TEntity>().Update(entity);
+            _context.SaveChanges();
+        }
+        catch (Exception)
+        {
+            throw new InternalException($"Error trying to update the entity: {entity}.");
+        }
         return entity;
     }
 
     public void Delete(TEntity entity)
     {
-        _context.Set<TEntity>().Remove(entity);
-        _context.SaveChanges();
+        try
+        {
+            _context.Set<TEntity>().Remove(entity);
+            _context.SaveChanges();
+        }
+        catch (Exception)
+        {
+            throw new InternalException($"Error trying to delete the entity: {entity}.");
+        }
     }
 
     public Task<TEntity> CreateAsync(TEntity entity)

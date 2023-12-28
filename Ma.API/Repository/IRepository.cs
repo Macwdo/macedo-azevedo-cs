@@ -5,7 +5,7 @@ public interface IRepository<TEntity> where TEntity : class
     void Save(TEntity entity);
     IQueryable GetQueryable();
 
-    void Create(TEntity entity);
+    TEntity Create(TEntity entity);
     IEnumerable<TEntity> Get();
     IEnumerable<TEntity> GetAllReadOnly();
     TEntity? Get(int id);

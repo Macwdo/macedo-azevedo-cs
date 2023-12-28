@@ -11,19 +11,22 @@ namespace Ma.API.Controllers.Lawsuits;
 public class LawsuitsController: ControllerBase
 {
     private ILogger<LawsuitsController> _logger;
-    private IRepository<Lawsuit> _repository;
 
-    public LawsuitsController(ILogger<LawsuitsController> logger, IRepository<Lawsuit> repository)
+    public LawsuitsController(ILogger<LawsuitsController> logger)
     {
         _logger = logger;
-        _repository = repository;
     }
 
     [HttpGet]
     public IActionResult Get()
     {
-        var lawsuits = _repository.GetAllReadOnly().ToList();
-        return Ok(lawsuits);
+        throw new NotImplementedException();
+    }
+
+    [HttpPost]
+    public IActionResult Post(Lawsuit lawsuit)
+    {
+        throw new NotImplementedException();
     }
 
 }
