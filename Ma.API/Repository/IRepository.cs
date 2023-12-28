@@ -7,10 +7,14 @@ public interface IRepository<TEntity> where TEntity : class
 
     TEntity Create(TEntity entity);
     IEnumerable<TEntity> Get();
+    IEnumerable<TEntity> GetAllFilteredByStringSearch(string search);
     IEnumerable<TEntity> GetAllReadOnly();
+
     TEntity? Get(int id);
     TEntity Update(TEntity entity);
     void Delete(TEntity entity);
+
+
 
     Task<TEntity> CreateAsync(TEntity entity);
     Task<IEnumerable<TEntity>> GetAsync();

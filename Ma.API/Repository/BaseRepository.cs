@@ -50,6 +50,11 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : clas
         return _context.Set<TEntity>().ToList();
     }
 
+    public IEnumerable<TEntity> GetAllFilteredByStringSearch(string search)
+    {
+        throw new NotImplementedException();
+    }
+
     public IEnumerable<TEntity> GetAllReadOnly()
     {
         return _context.Set<TEntity>().AsNoTracking().ToList();
