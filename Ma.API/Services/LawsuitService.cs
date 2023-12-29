@@ -8,7 +8,7 @@ public class LawsuitService: ILawsuitService
     private readonly IRepository<Lawsuit> _repository;
     private readonly ILogger<LawsuitService> _logger;
 
-    public LawsuitService(Logger<LawsuitService> logger, IRepository<Lawsuit> repository)
+    public LawsuitService(ILogger<LawsuitService> logger, IRepository<Lawsuit> repository)
     {
         _logger = logger;
         _repository = repository;

@@ -1,4 +1,5 @@
 using Ma.API.Data;
+using Ma.API.Middlewares;
 using Ma.API.Repository;
 using Ma.API.Services;
 
@@ -28,6 +29,12 @@ builder.Services.AddScoped<ILawsuitService, LawsuitService>();
 
 #endregion
 
+#region Middlewares
+
+builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
+
+#endregion
+
 #region Database
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
@@ -51,6 +58,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+# region Middlewares
+
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+
+# endregion
 
 app.UseHttpsRedirection();
 
