@@ -12,8 +12,7 @@ public static class UserFixture
             CreatedAt = DateTime.Now,
             UpdatedAt = DateTime.Now,
             Name = $"Name {id}",
-            Surname = $"Surname {id}",
-            BirthDate = DateTime.Today
+            Surname = $"Surname {id}"
         };
     }
 

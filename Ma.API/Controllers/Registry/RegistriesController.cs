@@ -9,11 +9,11 @@ namespace Ma.API.Controllers.Registry;
 [Route("[controller]")]
 public class RegistriesController: ControllerBase
 {
-    private readonly RegistryService _registryService;
+    private readonly IRegistryService _registryService;
 
     private ObjectResult InternalError => Problem($"Internal Error", null, StatusCodes.Status502BadGateway, "ERROR");
 
-    public RegistriesController(RegistryService registryService)
+    public RegistriesController(IRegistryService registryService)
     {
         _registryService = registryService;
     }
