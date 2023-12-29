@@ -1,7 +1,5 @@
-using System.Net.Mime;
-using Microsoft.ApplicationInsights.Extensibility.Implementation;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Ma.API.Middlewares;
 // TODO: Make this work
@@ -31,14 +29,14 @@ public class GlobalExceptionHandlingMiddleware: IMiddleware
                 Status = StatusCodes.Status500InternalServerError,
                 Type = "Error",
                 Title = "Internal Server Error",
-                Detail = e.Message,
-                Instance = context.Request.Path
+                Detail = e.Message
             };
 
             var json = JsonSerializer.Serialize(problem);
+            context.Response.ContentType = "application/json";
+
             await context.Response.WriteAsync(json);
 
-            context.Response.ContentType = "application/json";
 
         }
     }

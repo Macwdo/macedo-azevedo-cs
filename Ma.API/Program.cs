@@ -59,13 +59,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection();
 # region Middlewares
 
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 # endregion
-
-app.UseHttpsRedirection();
 
 app.MapControllers();
 
