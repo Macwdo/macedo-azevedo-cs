@@ -5,10 +5,10 @@ namespace Ma.API.Entities;
 public class User: BaseEntity
 {
     [Required, MinLength(3), MaxLength(40)]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     [Required, MinLength(3), MaxLength(40)]
-    public string Surname { get; set; }
+    public string Surname { get; set; } = string.Empty;
     [EmailAddress]
-    public string Email { get; set; }
+    public string Email { get; set; } = string.Empty;
 }

@@ -6,9 +6,10 @@ public class RegistryCpf
 {
     public required Registry Registry { get; set; }
 
-    [Required]
+    [Key, Required]
     public int RegistryId { get; set; }
 
-    public required string Cnpj { get; set; }
+    [Required, StringLength(20)]
+    public string Cnpj { get; set; } = string.Empty;
 
 }

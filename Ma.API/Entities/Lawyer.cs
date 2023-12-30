@@ -1,16 +1,21 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ma.API.Entities;
 
 public class Lawyer: BaseEntity
 {
-    public required string Name { get; set; }
-    public required string Email { get; set; }
-    public required string Cpf { get; set; }
+    [StringLength(60)]
+    public string Name { get; set; } = string.Empty;
+    [StringLength(100)]
+    public string Email { get; set; } = string.Empty;
+    [StringLength(11)]
+    public string Cpf { get; set; } = string.Empty;
 
     [ForeignKey("UserId")]
     public int? UserId { get; set; }
     public User? User { get; set; }
-    public required string Oab { get; set; }
+    [StringLength(20)]
+    public string Oab { get; set; } = string.Empty;
 
 }

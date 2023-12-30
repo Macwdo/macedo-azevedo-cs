@@ -4,11 +4,13 @@ namespace Ma.API.Entities;
 
 public class RegistryCnpj
 {
+
     public required Registry Registry { get; set; }
 
-    [Required]
+    [Key, Required]
     public int RegistryId { get; set; }
 
-    public required string Cnpj { get; set; }
+    [StringLength(100), Required]
+    public string Cnpj { get; set; } = string.Empty;
 
 }
