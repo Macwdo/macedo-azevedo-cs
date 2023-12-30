@@ -2,7 +2,6 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ma.API.Middlewares;
-// TODO: Make this work
 public class GlobalExceptionHandlingMiddleware: IMiddleware
 {
     private readonly ILogger<GlobalExceptionHandlingMiddleware> _logger;

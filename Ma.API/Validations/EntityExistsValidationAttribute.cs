@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Ma.API.Entities;
 using Ma.API.Repository;
 
-namespace Ma.API.Models.Validations;
+namespace Ma.API.Validations;
 
 public class EntityExistsValidationAttribute<TEntity>: ValidationAttribute where TEntity : class
 {

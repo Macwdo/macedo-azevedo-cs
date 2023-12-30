@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Ma.API.Exceptions;
 using Ma.API.Models.Registry;
 using Ma.API.Services;
@@ -17,6 +18,8 @@ public class RegistriesController: ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ReadRegistryDto>))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
     public IActionResult GetAll()
     {
         var registries = _registryService.GetRegistries();
@@ -24,6 +27,9 @@ public class RegistriesController: ControllerBase
     }
 
     [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReadRegistryDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
     public IActionResult Get(int id)
     {
         var registry = _registryService.GetRegistry(id);
@@ -34,6 +40,9 @@ public class RegistriesController: ControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ReadRegistryDto))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
     public IActionResult Create([FromBody] CreateRegistryDto createRegistryDto){
         var readRegistryDto = _registryService.CreateRegistry(createRegistryDto);
 
@@ -55,6 +64,9 @@ public class RegistriesController: ControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
     public IActionResult Delete(int id)
     {
         try

@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Ma.API.Models.Validations;
+using Ma.API.Validations;
 
 namespace Ma.API.Models.Registry;
 

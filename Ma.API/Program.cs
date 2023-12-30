@@ -1,71 +1,16 @@
-using Ma.API.Data;
-using Ma.API.Middlewares;
-using Ma.API.Repository;
-using Ma.API.Services;
+using Ma.API;
 
-// TODO: Break this file into Startup.cs and Program.cs
-var builder = WebApplication.CreateBuilder(args);
-
-#region Controllers
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-#endregion
-
-// TODO: Add Serilog
-#region Loggers
-
-// builder.WebHost.UseSentry();
-// builder.Services.AddApplicationInsightsTelemetry();
-
-#endregion
-
-#region Services DI
-
-builder.Services.AddScoped<IRegistryService, RegistryService>();
-builder.Services.AddScoped<ILawsuitService, LawsuitService>();
-
-#endregion
-
-#region Middlewares
-
-builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
-
-#endregion
-
-#region Database
-
-builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-
-var connectionString = builder.Configuration.GetConnectionString("postgres");
-builder.Services.AddNpgsql<ApplicationContext>(connectionString);
-
-#endregion
-
-#region AutoMapper
-
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-#endregion
-
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+public class Program
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public static void Main(string[] args)
+    {
+        CreateHostBuilder(args).Build().Run();
+    }
+
+    private static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>(); // Specify the correct startup class
+            });
 }
-
-app.UseHttpsRedirection();
-# region Middlewares
-
-app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
-
-# endregion
-
-app.MapControllers();
-
-app.Run();

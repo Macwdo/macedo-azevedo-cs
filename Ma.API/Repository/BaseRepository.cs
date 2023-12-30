@@ -15,14 +15,7 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : clas
 
     public void Save(TEntity entity)
     {
-        try
-        {
-            _context.SaveChanges();
-        }
-        catch
-        {
-            throw new InternalException("Error trying to save changes");
-        }
+        _context.SaveChanges();
     }
 
     public IQueryable GetQueryable()
@@ -32,16 +25,9 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : clas
 
     public TEntity Create(TEntity entity)
     {
-        try
-        {
-            _context.Set<TEntity>().Add(entity);
-            _context.SaveChanges();
-            return entity;
-        }
-        catch (Exception)
-        {
-            throw new InternalException($"Error trying to create the entity: {entity}");
-        }
+        _context.Set<TEntity>().Add(entity);
+        _context.SaveChanges();
+        return entity;
 
     }
 
@@ -67,29 +53,15 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : clas
 
     public TEntity Update(TEntity entity)
     {
-        try
-        {
-            _context.Set<TEntity>().Update(entity);
-            _context.SaveChanges();
-        }
-        catch (Exception)
-        {
-            throw new InternalException($"Error trying to update the entity: {entity}.");
-        }
+        _context.Set<TEntity>().Update(entity);
+        _context.SaveChanges();
         return entity;
     }
 
     public void Delete(TEntity entity)
     {
-        try
-        {
             _context.Set<TEntity>().Remove(entity);
             _context.SaveChanges();
-        }
-        catch (Exception)
-        {
-            throw new InternalException($"Error trying to delete the entity: {entity}.");
-        }
     }
 
     public Task<TEntity> CreateAsync(TEntity entity)

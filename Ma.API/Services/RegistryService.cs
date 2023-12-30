@@ -13,11 +13,13 @@ public class RegistryService: IRegistryService
 {
     private readonly IRepository<Registry> _repository;
     private readonly IMapper _mapper;
+    private readonly ILogger<RegistryService> _logger;
 
-    public RegistryService(IRepository<Registry> repository, IMapper mapper)
+    public RegistryService(IRepository<Registry> repository, IMapper mapper, ILogger<RegistryService> logger)
     {
         _repository = repository;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public ReadRegistryDto CreateRegistry(CreateRegistryDto createRegistryDto)

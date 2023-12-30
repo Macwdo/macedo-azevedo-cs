@@ -27,8 +27,4 @@
       <ProjectReference Include="..\Ma.API\Ma.API.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="System\Services\" />
-    </ItemGroup>
-
 </Project>
