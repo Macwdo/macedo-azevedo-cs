@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Ma.API.DTOs.Registry;
+namespace Ma.API.Models.Registry;
 
 public record UpdateRegistryDto
 (

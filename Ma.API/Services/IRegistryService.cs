@@ -1,4 +1,4 @@
-using Ma.API.DTOs.Registry;
+using Ma.API.Models.Registry;
 
 namespace Ma.API.Services;
 

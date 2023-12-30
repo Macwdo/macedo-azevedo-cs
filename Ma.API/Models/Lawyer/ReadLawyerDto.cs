@@ -1,7 +1,6 @@
-using System.ComponentModel.DataAnnotations;
 using Ma.API.DTOs.User;
 
-namespace Ma.API.DTOs.Lawyer;
+namespace Ma.API.Models.Lawyer;
 
 public record ReadLawyerDto(
     int Id,

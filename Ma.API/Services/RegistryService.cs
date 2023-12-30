@@ -1,7 +1,7 @@
 using AutoMapper;
-using Ma.API.DTOs.Registry;
 using Ma.API.Entities;
 using Ma.API.Exceptions;
+using Ma.API.Models.Registry;
 using Ma.API.Repository;
 
 namespace Ma.API.Services;

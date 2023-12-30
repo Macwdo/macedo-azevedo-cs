@@ -1,5 +1,5 @@
-using Ma.API.DTOs.Registry;
 using Ma.API.Exceptions;
+using Ma.API.Models.Registry;
 using Ma.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,8 +10,6 @@ namespace Ma.API.Controllers.Registry;
 public class RegistriesController: ControllerBase
 {
     private readonly IRegistryService _registryService;
-
-    private ObjectResult InternalError => Problem($"Internal Error", null, StatusCodes.Status502BadGateway, "ERROR");
 
     public RegistriesController(IRegistryService registryService)
     {
@@ -37,16 +35,9 @@ public class RegistriesController: ControllerBase
 
     [HttpPost]
     public IActionResult Create([FromBody] CreateRegistryDto createRegistryDto){
-        try
-        {
-            var readRegistryDto = _registryService.CreateRegistry(createRegistryDto);
+        var readRegistryDto = _registryService.CreateRegistry(createRegistryDto);
 
-            return CreatedAtAction(nameof(Get), new {id = readRegistryDto.Id}, readRegistryDto);
-        }
-        catch (Exception)
-        {
-            return InternalError;
-        }
+        return CreatedAtAction(nameof(Get), new {id = readRegistryDto.Id}, readRegistryDto);
     }
 
     [HttpPut("{id:int}")]
@@ -60,10 +51,6 @@ public class RegistriesController: ControllerBase
         catch (NotFoundEntityException)
         {
             return NotFound($"Error: Registry by id={id} not found.");
-        }
-        catch (Exception)
-        {
-            return InternalError;
         }
     }
 
@@ -79,9 +66,6 @@ public class RegistriesController: ControllerBase
         {
             return NotFound($"Error: Registry by id={id} not found.");
         }
-        catch (Exception)
-        {
-            return InternalError;
-        }
+
     }
 }

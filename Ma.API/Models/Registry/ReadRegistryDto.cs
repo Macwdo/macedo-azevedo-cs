@@ -1,7 +1,6 @@
-using System.ComponentModel.DataAnnotations;
-using Ma.API.DTOs.Lawyer;
+using Ma.API.Models.Lawyer;
 
-namespace Ma.API.DTOs.Registry;
+namespace Ma.API.Models.Registry;
 
 public record ReadRegistryDto(
     int Id,

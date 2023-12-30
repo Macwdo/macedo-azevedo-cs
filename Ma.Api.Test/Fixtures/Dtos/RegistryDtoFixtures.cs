@@ -1,5 +1,5 @@
-using Ma.API.DTOs.Lawyer;
-using Ma.API.DTOs.Registry;
+using Ma.API.Models.Lawyer;
+using Ma.API.Models.Registry;
 
 namespace Ma.Api.Test.Fixtures.Dtos;
 

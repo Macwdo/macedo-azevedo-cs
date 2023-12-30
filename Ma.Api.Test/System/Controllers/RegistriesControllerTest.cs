@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Ma.API.Controllers.Registry;
-using Ma.API.DTOs.Registry;
+using Ma.API.Models.Registry;
 using Ma.API.Services;
 using Ma.Api.Test.Fixtures.Dtos;
 using Microsoft.AspNetCore.Http;
@@ -16,8 +16,27 @@ public class RegistriesControllerTest
     {
     }
 
+
     [Fact]
-    public void GetAllRequest_OnSuccess_Returns200()
+    public void GetAll_OnSuccess_ReturnsSuccessBody() {
+        // Arrange
+        var fixture = RegistryDtoFixtures.ReadRegistriesDtoFixture(10);
+        var mockedService = new Mock<IRegistryService>();
+        mockedService
+            .Setup(s => s.GetRegistries())
+            .Returns(fixture)
+        ;
+
+        var controller = new RegistriesController(mockedService.Object);
+        // Act
+        var controllerResult = (OkObjectResult)controller.GetAll();
+
+        // Assert
+        controllerResult.Value.Should().Be(fixture);
+    }
+
+    [Fact]
+    public void GetAll_OnSuccess_Returns200()
     {
         // Arrange
         var readRegistriesDtoFixture = RegistryDtoFixtures.ReadRegistriesDtoFixture(2, false);
@@ -38,7 +57,7 @@ public class RegistriesControllerTest
     }
 
     [Fact]
-    public void GetRequest_OnSuccess_Returns200()
+    public void Get_OnSuccess_Returns200()
     {
         // Arrange
         var readRegistryDtoFixture = RegistryDtoFixtures.ReadRegistryDtoFixture(1);
@@ -58,7 +77,7 @@ public class RegistriesControllerTest
     }
 
     [Fact]
-    public void GetRequest_WhenNotFound_Returns404()
+    public void Get_WhenNotFound_Returns404()
     {
         // Arrange
 
@@ -76,8 +95,5 @@ public class RegistriesControllerTest
         controllerResult.StatusCode.Should().Be(404);
 
     }
-
-
-
 
 }

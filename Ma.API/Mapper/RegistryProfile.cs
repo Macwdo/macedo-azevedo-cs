@@ -1,6 +1,6 @@
 using AutoMapper;
-using Ma.API.DTOs.Registry;
 using Ma.API.Entities;
+using Ma.API.Models.Registry;
 
 namespace Ma.API.Mapper;
 
