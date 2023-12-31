@@ -39,37 +39,27 @@ public class RegistryService: IRegistryService
 
     public ReadRegistryDto? GetRegistry(int id)
     {
-        var registryEntity = _repository.Get(id);
-        var readRegistryDto = _mapper.Map<ReadRegistryDto>(registryEntity);
-        return readRegistryDto;
+        Registry? registryEntity = _repository.Get(id);
+        if (registryEntity is null) return null;
+        return _mapper.Map<ReadRegistryDto>(registryEntity);
     }
 
     public ReadRegistryDto UpdateRegistry(int id, UpdateRegistryDto updateRegistryDto)
     {
         var registryEntity = _repository.Get(id);
-        if (registryEntity is null)
-        {
-            throw new NotFoundEntityException($"Registry by id={id} cant be updated: Not Found.");
+        if (registryEntity is not null) {
+            _mapper.Map(updateRegistryDto, registryEntity);
+            _repository.Update(registryEntity);
+            return _mapper.Map<ReadRegistryDto>(registryEntity);
         }
-
-        _mapper.Map(updateRegistryDto, registryEntity);
-        _repository.Update(registryEntity);
-
-        var readRegistryDtoUpdated = _mapper.Map<ReadRegistryDto>(registryEntity);
-
-        return readRegistryDtoUpdated;
-
+        throw new NotFoundEntityException($"Registry by id={id} cant be updated: Not Found.");
     }
 
     public void DeleteRegistry(int id)
     {
         var registry = _repository.Get(id);
-        if (registry is null)
-        {
-            throw new NotFoundEntityException($"Registry by id={id} cant be deleted: Not Found.");
-        }
-        _repository.Delete(registry);
+        if (registry is not null)
+            _repository.Delete(registry);
+        throw new NotFoundEntityException($"Registry by id={id} cant be deleted: Not Found.");
     }
-
-
 }

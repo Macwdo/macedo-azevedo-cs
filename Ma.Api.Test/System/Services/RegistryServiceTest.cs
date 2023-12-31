@@ -49,6 +49,31 @@ public class RegistryServiceTest
         // Assert
         readRegistryDto.Should().Be(readRegistryDtoFixture);
 
+    }
+
+    [Fact]
+    public void GetRegistry_OnNotFound_ReturnsNull()
+    {
+        // Arrange
+        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        mockRegistryRepository
+            .Setup(x => x.Get(1))
+            .Returns((Registry?)null);
+
+        var mockAutoMapper = new Mock<IMapper>();
+        var mockLogger = new Mock<ILogger<RegistryService>>();
+        var registryService = new RegistryService(
+            mockRegistryRepository.Object,
+            mockAutoMapper.Object,
+            mockLogger.Object
+        );
+
+        // Act
+        var getRegistryResult = registryService.GetRegistry(1);
+
+        // Assert
+        getRegistryResult.Should().BeNull();
 
     }
+
 }
