@@ -1,3 +1,4 @@
+using Ma.API.Clients;
 using Ma.API.Data;
 using Ma.API.Middlewares;
 using Ma.API.Repository;
@@ -29,20 +30,18 @@ public class Startup
         #endregion
 
         #region Loggers
-        // TODO: Add Serilog
-        Log.Logger = new LoggerConfiguration()
-            .WriteTo.Console()
-            .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
-            .CreateLogger();
-
-        services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog());
-
-        // ConfigureLogging(services);
-        // builder.WebHost.UseSentry();
+        ConfigureLogging(services);
 
         #endregion
 
         #region Services DI
+
+        services.AddHttpClient<IApiHelper, ApiHelper>(client => {
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.DefaultRequestHeaders.Add("ContentType", "application/json");
+        });
+
+
         ConfigureDiServices(services);
 
         #endregion
@@ -67,6 +66,18 @@ public class Startup
     private void ConfigureLogging(IServiceCollection services)
     {
         // services.AddApplicationInsightsTelemetry();
+    
+       Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+
+        services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog());
+
+        // TODO: Test better log solution ELK, Sentry or ApplicationInsights;             
+        // ConfigureLogging(services);
+        // builder.WebHost.UseSentry();
+
     }
 
     private void ConfigureDiServices(IServiceCollection services)
