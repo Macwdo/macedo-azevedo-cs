@@ -18,28 +18,52 @@ public class ApiHelperTest
         // Arrange
         var mockBaseUrl = "https://www.testbaseurl.com/testurl";
 
-        var mockResponse = new Response<string>()
-        {
-            Content = "testResponseContent",
-            StatusCode = HttpStatusCode.OK
-        };
+        var mockRequest = "testResponseContent";
 
-        var httpMessageHandler = new Mock<HttpMessageHandler>();
-        httpMessageHandler
+        var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+        mockHttpMessageHandler
             .SetupSendAsync(HttpMethod.Get, mockBaseUrl)
-            .ReturnsHttpResponseAsync(mockResponse, HttpStatusCode.OK);
+            .ReturnsHttpResponseAsync(mockRequest, HttpStatusCode.OK);
 
         var mockLogger = new Mock<ILogger<ApiHelper>>();
-        var mockHttpClient = new HttpClient(httpMessageHandler.Object)
+        var mockHttpClient = new HttpClient(mockHttpMessageHandler.Object)
         {
-            BaseAddress = new Uri(mockBaseUrl)
+            BaseAddress = new Uri(mockBaseUrl
+)
         };
         var apiHelper = new ApiHelper(mockHttpClient, mockLogger.Object, mockBaseUrl);
 
         // Act
-        var response = await apiHelper.GetAsync<Response<string>>("testurl");
+        var response = await apiHelper.GetAsync<string>("testurl");
 
         // Assert
-        response.Content.Should().Be("some response");
+        response.Content.Should().Be("testResponseContent");
+    }
+
+    [Fact]
+    async Task GetAsync_OnErrorStatusCode_ThrowsAnError()
+    {
+        // Arrange
+        var mockBaseUrl = "https://www.testbaseurl.com/testurl";
+        var mockRequest = "testResponseContent";
+
+        var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+        mockHttpMessageHandler
+            .SetupSendAsync(HttpMethod.Get, mockBaseUrl)
+            .ReturnsHttpResponseAsync(mockRequest, HttpStatusCode.NotFound);
+
+        var mockLogger = new Mock<ILogger<ApiHelper>>();
+        var mockHttpClient = new HttpClient(mockHttpMessageHandler.Object)
+        {
+            BaseAddress = new Uri(mockBaseUrl
+            )
+        };
+        var apiHelper = new ApiHelper(mockHttpClient, mockLogger.Object, mockBaseUrl);
+
+        // Act
+        var response = await apiHelper.GetAsync<string>("testurl");
+
+        // Assert
+        response.Should().Be("1");
     }
 }

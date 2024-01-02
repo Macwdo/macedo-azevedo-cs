@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json;
 using Exception = System.Exception;
 
 namespace Ma.API.Clients;
@@ -14,15 +15,19 @@ public class ApiHelper: IApiHelper
         _logger = logger;
     }
 
-    public async Task<Response<T>> GetAsync<T>(string url)
+    public async Task<Response<T?>> GetAsync<T>(string url)
     {
         try
         {
-            var response = await _httpClient.GetFromJsonAsync<T>(url);
-            return new Response<T>()
+            var response = await _httpClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            var responseBodyJsonString = await response.Content.ReadAsStringAsync();
+            var responseBody = JsonSerializer.Deserialize<T>(responseBodyJsonString);
+            return new Response<T?>()
             {
-                StatusCode = HttpStatusCode.OK,
-                Content = response
+                StatusCode = response.StatusCode,
+                Content = responseBody
             };
         }
         catch (HttpRequestException)
@@ -40,7 +45,7 @@ public class ApiHelper: IApiHelper
 
 public interface IApiHelper
 {
-    Task<Response<T>> GetAsync<T>(string url);
+    Task<Response<T?>> GetAsync<T>(string url);
     Task<Response<T>> CallAsync<T>(string url, HttpMethod method, object body = null);
 }
 
@@ -48,7 +53,7 @@ public interface IApiHelper
 public class Response<T>
 {
     public HttpStatusCode StatusCode { get; set; }
-    public required T Content { get; set; }
+    public T? Content { get; set; }
 }
 
 public class ErrorResponse
