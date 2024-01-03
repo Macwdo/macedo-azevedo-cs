@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Ma.API.Validations;
+using Ma.API.Validators;
 
 namespace Ma.API.Models.Registry;
 
@@ -9,6 +9,6 @@ public record UpdateRegistryDto
     [EmailAddress, MaxLength(100)] string? Email,
     //TODO: Validation for Image Uri
     Uri? Image,
-    [EntityExistsValidation<Entities.Lawyer>]
+    [EntityExistsValidator<Entities.Lawyer>]
     int? LawyerResponsibleId
 );

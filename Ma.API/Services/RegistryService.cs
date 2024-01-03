@@ -1,4 +1,5 @@
 using AutoMapper;
+using FluentValidation;
 using Ma.API.Entities;
 using Ma.API.Exceptions;
 using Ma.API.Models.Registry;
@@ -15,15 +16,26 @@ public class RegistryService: IRegistryService
     private readonly IMapper _mapper;
     private readonly ILogger<RegistryService> _logger;
 
-    public RegistryService(IRepository<Registry> repository, IMapper mapper, ILogger<RegistryService> logger)
+    private readonly IValidator<CreateRegistryDto> _createRegistryDtoValidator;
+
+    public RegistryService(IRepository<Registry> repository, IMapper mapper, ILogger<RegistryService> logger, IValidator<CreateRegistryDto> createRegistryDtoValidator)
     {
         _repository = repository;
         _mapper = mapper;
         _logger = logger;
+        _createRegistryDtoValidator = createRegistryDtoValidator;
     }
 
     public ReadRegistryDto CreateRegistry(CreateRegistryDto createRegistryDto)
     {
+
+        var result = _createRegistryDtoValidator.Validate(createRegistryDto);
+        if (!result.IsValid)
+        {
+            throw new InvalidModelException(errors: result.Errors.Select(x => x.ErrorMessage));
+        
+        }
+
         var registryEntity = _mapper.Map<Registry>(createRegistryDto);
         _repository.Create(registryEntity);
         var readRegistryDto = _mapper.Map<ReadRegistryDto>(registryEntity);
@@ -60,6 +72,7 @@ public class RegistryService: IRegistryService
         var registry = _repository.Get(id);
         if (registry is not null)
             _repository.Delete(registry);
-        throw new NotFoundEntityException($"Registry by id={id} cant be deleted: Not Found.");
+        else
+            throw new NotFoundEntityException($"Registry by id={id} cant be deleted: Not Found.");
     }
 }

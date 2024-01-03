@@ -1,19 +1,34 @@
 using AutoMapper;
 using FluentAssertions;
+using FluentValidation;
 using Ma.API.Entities;
+using Ma.API.Exceptions;
 using Ma.API.Models.Registry;
 using Ma.API.Repository;
 using Ma.API.Services;
 using Ma.Api.Test.Fixtures.Entities;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Ma.Api.Validators.Registry;
 
 namespace Ma.Api.Test.System.Services;
 
 public class RegistryServiceTest
 {
 
-    // Refactor
+    private ReadRegistryDto MapRegistryToReadRegistryDto(Registry registry)
+    {
+        return new ReadRegistryDto(
+            registry.Id,
+            registry.Name,
+            registry.Email,
+            registry.Image,
+            null,
+            registry.CreatedAt,
+            registry.UpdatedAt
+        );
+    }
+
     [Fact]
     public void GetRegistry_OnSuccess_ReturnsReadRegistryDto()
     {
@@ -25,15 +40,7 @@ public class RegistryServiceTest
             .Setup(x => x.Get(1))
             .Returns(registryFixture);
 
-        var readRegistryDtoFixture = new ReadRegistryDto(
-            registryFixture.Id,
-            registryFixture.Name,
-            registryFixture.Email,
-            registryFixture.Image,
-            null,
-            registryFixture.CreatedAt,
-            registryFixture.UpdatedAt
-        );
+        var readRegistryDtoFixture = MapRegistryToReadRegistryDto(registryFixture);
 
         var mockAutoMapper = new Mock<IMapper>();
         mockAutoMapper
@@ -41,7 +48,13 @@ public class RegistryServiceTest
             .Returns(readRegistryDtoFixture);
 
         var mockLogger = new Mock<ILogger<RegistryService>>();
-        var registryService = new RegistryService(mockRegistryRepository.Object, mockAutoMapper.Object, mockLogger.Object);
+        var mockValidator = new Mock<IValidator<CreateRegistryDto>>();
+        var registryService = new RegistryService(
+            mockRegistryRepository.Object,
+            mockAutoMapper.Object,
+            mockLogger.Object,
+            mockValidator.Object
+        );
 
         // Act
         var readRegistryDto = registryService.GetRegistry(1);
@@ -62,10 +75,12 @@ public class RegistryServiceTest
 
         var mockAutoMapper = new Mock<IMapper>();
         var mockLogger = new Mock<ILogger<RegistryService>>();
+        var mockValidator = new Mock<IValidator<CreateRegistryDto>>();
         var registryService = new RegistryService(
             mockRegistryRepository.Object,
             mockAutoMapper.Object,
-            mockLogger.Object
+            mockLogger.Object,
+            mockValidator.Object
         );
 
         // Act
@@ -75,5 +90,237 @@ public class RegistryServiceTest
         getRegistryResult.Should().BeNull();
 
     }
+
+    [Fact]
+    public void GetRegistries_OnSuccess_ReturnsReadRegistryDtoList()
+    {
+        // Arrange
+        var registryFixture = RegistryFixture.Registry(1);
+
+        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        mockRegistryRepository
+            .Setup(x => x.GetAllReadOnly())
+            .Returns(new List<Registry> { registryFixture });
+
+        var readRegistryDtoFixture = MapRegistryToReadRegistryDto(registryFixture);
+
+        var mockAutoMapper = new Mock<IMapper>();
+        mockAutoMapper
+            .Setup(a =>
+                a.Map<IEnumerable<ReadRegistryDto>>(new List<Registry> { registryFixture })
+                )
+            .Returns(new List<ReadRegistryDto> { readRegistryDtoFixture });
+
+        var mockLogger = new Mock<ILogger<RegistryService>>();
+        var mockValidator = new Mock<IValidator<CreateRegistryDto>>();
+        var registryService = new RegistryService(
+            mockRegistryRepository.Object,
+            mockAutoMapper.Object,
+            mockLogger.Object,
+            mockValidator.Object
+        );
+        // Act
+        var readRegistryDtoList = registryService.GetRegistries();
+
+        // Assert
+        readRegistryDtoList.Should().BeEquivalentTo(new List<ReadRegistryDto> { readRegistryDtoFixture });
+
+    }
+
+    [Fact]
+    public void CreateRegistry_OnSuccess_ReturnsReadRegistryDto()
+    {
+        // Arrange
+        var registryFixture = RegistryFixture.Registry(1);
+
+        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        mockRegistryRepository
+            .Setup(x => x.Create(registryFixture))
+            .Returns(registryFixture);
+
+        var createRegistryDtoFixture = new CreateRegistryDto(
+            registryFixture.Name,
+            registryFixture.Email,
+            registryFixture.Image,
+            null
+        );
+
+        var readRegistryDtoFixture = MapRegistryToReadRegistryDto(registryFixture);
+
+        var mockAutoMapper = new Mock<IMapper>();
+
+        mockAutoMapper
+            .Setup(a => a.Map<Registry>(createRegistryDtoFixture))
+            .Returns(registryFixture);
+
+        mockAutoMapper
+            .Setup(a => a.Map<ReadRegistryDto>(registryFixture))
+            .Returns(readRegistryDtoFixture);
+
+        var mockLogger = new Mock<ILogger<RegistryService>>();
+        var mockValidator = new CreateRegistryDtoValidator();
+
+        var registryService = new RegistryService(
+            mockRegistryRepository.Object,
+            mockAutoMapper.Object,
+            mockLogger.Object,
+            mockValidator
+        );
+
+        // Act
+        var readRegistryDto = registryService.CreateRegistry(createRegistryDtoFixture);
+
+        // Assert
+        readRegistryDto.Should().Be(readRegistryDtoFixture);
+
+    }
+
+    [Theory]
+    [InlineData("Valid Name", "valid_email@mail.com", "https://validimageurl.com/", true)]
+    [InlineData("in", "notvalidemail", "https://validimageurl.com/", false)]
+    public void CreateRegistry_OnRightFields_ShouldCreate(string name, string email, string image, bool valid)
+    {
+        // Arrange
+        var registryFixture = RegistryFixture.Registry(1);
+
+        registryFixture.Name = name;
+        registryFixture.Email = email;
+        registryFixture.Image = new (image);
+
+        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        mockRegistryRepository
+            .Setup(x => x.Create(registryFixture))
+            .Returns(registryFixture);
+
+        var createRegistryDtoFixture = new CreateRegistryDto(
+            registryFixture.Name,
+            registryFixture.Email,
+            registryFixture.Image,
+            null
+        );
+
+        var readRegistryDtoFixture = MapRegistryToReadRegistryDto(registryFixture);
+
+        var mockAutoMapper = new Mock<IMapper>();
+        mockAutoMapper
+            .Setup(a => a.Map<Registry>(createRegistryDtoFixture))
+            .Returns(registryFixture);
+
+        mockAutoMapper
+            .Setup(a => a.Map<ReadRegistryDto>(registryFixture))
+            .Returns(readRegistryDtoFixture);
+
+        var mockLogger = new Mock<ILogger<RegistryService>>();
+        var validator = new CreateRegistryDtoValidator();
+        
+        var registryService = new RegistryService(
+            mockRegistryRepository.Object,
+            mockAutoMapper.Object,
+            mockLogger.Object,
+            validator
+        );
+
+        // Act
+        Action createRegistryAction = () => registryService.CreateRegistry(createRegistryDtoFixture);
+
+        // Assert
+        if (valid)
+            createRegistryAction.Should().NotThrow();
+        else
+            createRegistryAction.Should().Throw<InvalidModelException>();
+    }
+
+    [Fact]
+    public void DeleteRegistry_WhenExists_ShouldNotThrow()
+    {
+        // Arrange
+        var registryFixture = RegistryFixture.Registry(1);
+
+        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        mockRegistryRepository
+            .Setup(x => x.Get(1))
+            .Returns(registryFixture);
+
+        var mockAutoMapper = new Mock<IMapper>();
+        var mockLogger = new Mock<ILogger<RegistryService>>();
+        var mockValidator = new Mock<IValidator<CreateRegistryDto>>();
+        var registryService = new RegistryService(
+            mockRegistryRepository.Object,
+            mockAutoMapper.Object,
+            mockLogger.Object,
+            mockValidator.Object
+        );
+
+        // Act
+        Action deleteRegistryAction = () => registryService.DeleteRegistry(1);
+
+        // Assert
+        deleteRegistryAction.Should().NotThrow();
+    }
+
+    [Fact]
+    public void UpdateRegistry_WhenNotExists_ShouldThrow()
+    {
+        // Arrange
+        var registryFixture = RegistryFixture.Registry(1);
+
+        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        mockRegistryRepository
+            .Setup(x => x.Get(1))
+            .Returns((Registry?)null);
+
+        var updateRegistryDtoFixture = new UpdateRegistryDto(
+            registryFixture.Name,
+            registryFixture.Email,
+            registryFixture.Image,
+            null
+        );
+
+        var mockAutoMapper = new Mock<IMapper>();
+        var mockLogger = new Mock<ILogger<RegistryService>>();
+        var mockValidator = new Mock<IValidator<CreateRegistryDto>>();
+        var registryService = new RegistryService(
+            mockRegistryRepository.Object,
+            mockAutoMapper.Object,
+            mockLogger.Object,
+            mockValidator.Object
+        );
+
+        // Act
+        Action updateRegistryAction = () => registryService.UpdateRegistry(1, updateRegistryDtoFixture);
+
+        // Assert
+        updateRegistryAction.Should().Throw<NotFoundEntityException>();
+    }
+
+
+    [Fact]
+    public void DeleteRegistry_WhenNotFound_ShouldThrow()
+    {
+        // Arrange
+        var registryFixture = RegistryFixture.Registry(1);
+
+        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        mockRegistryRepository
+            .Setup(x => x.Get(1))
+            .Returns((Registry?)null);
+
+        var mockAutoMapper = new Mock<IMapper>();
+        var mockLogger = new Mock<ILogger<RegistryService>>();
+        var mockValidator = new Mock<IValidator<CreateRegistryDto>>();
+        var registryService = new RegistryService(
+            mockRegistryRepository.Object,
+            mockAutoMapper.Object,
+            mockLogger.Object,
+            mockValidator.Object
+        );
+
+        // Act
+        Action deleteRegistryAction = () => registryService.DeleteRegistry(1);
+
+        // Assert
+        deleteRegistryAction.Should().Throw<NotFoundEntityException>();
+    }
+
 
 }

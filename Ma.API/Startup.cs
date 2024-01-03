@@ -1,6 +1,9 @@
+using FluentValidation;
+using Ma.Api.Validators.Registry;
 using Ma.API.Clients;
 using Ma.API.Data;
 using Ma.API.Middlewares;
+using Ma.API.Models.Registry;
 using Ma.API.Repository;
 using Ma.API.Services;
 using Microsoft.OpenApi.Models;
@@ -40,6 +43,7 @@ public class Startup
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             client.DefaultRequestHeaders.Add("ContentType", "application/json");
         });
+
 
 
         ConfigureDiServices(services);
@@ -84,6 +88,10 @@ public class Startup
     {
         services.AddScoped<IRegistryService, RegistryService>();
         services.AddScoped<ILawsuitService, LawsuitService>();
+    }
+
+    private void ConfigureValidators(IServiceCollection services){
+        services.AddScoped<IValidator<CreateRegistryDto>, CreateRegistryDtoValidator>();
     }
 
     private void ConfigureMiddlewares(IServiceCollection services)
