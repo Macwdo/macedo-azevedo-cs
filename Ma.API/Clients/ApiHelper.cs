@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using Ma.API.Exceptions;
 using Exception = System.Exception;
 
 namespace Ma.API.Clients;
@@ -17,9 +18,10 @@ public class ApiHelper: IApiHelper
 
     public async Task<Response<T?>> GetAsync<T>(string url)
     {
+        var response = await _httpClient.GetAsync(url);
+
         try
         {
-            var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
             var responseBodyJsonString = await response.Content.ReadAsStringAsync();
@@ -30,11 +32,11 @@ public class ApiHelper: IApiHelper
                 Content = responseBody
             };
         }
-        catch (HttpRequestException)
+        catch (HttpRequestException e)
         {
-            throw new Exception("Http exception");
+            _logger.LogError(e, "Error trying to request {url}, StatusCode: {statusCode}", url, response.StatusCode);
+            throw new ClientErrorException($"Error trying to request {url}, StatusCode: {response.StatusCode}");
         }
-
     }
 
     public async Task<Response<T>> CallAsync<T>(string url, HttpMethod method, object body = null)

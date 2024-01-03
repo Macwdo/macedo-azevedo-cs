@@ -1,6 +1,7 @@
 using System.Net;
 using FluentAssertions;
 using Ma.API.Clients;
+using Ma.API.Exceptions;
 using Ma.Api.Test.Extensions;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -61,9 +62,10 @@ public class ApiHelperTest
         var apiHelper = new ApiHelper(mockHttpClient, mockLogger.Object, mockBaseUrl);
 
         // Act
-        var response = await apiHelper.GetAsync<string>("testurl");
+        Func<Task> requestAction = async () => await apiHelper.GetAsync<string>("testurl");
 
         // Assert
-        response.Should().Be("1");
+        await requestAction.Should().ThrowAsync<ClientErrorException>()
+            .WithMessage("Error trying to request testurl, StatusCode: NotFound");
     }
 }
