@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
-using Ma.API.Clients;
 using Ma.API.Entities.Lawsuit;
+using Ma.API.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -12,19 +12,16 @@ namespace Ma.API.Controllers.V1.Lawsuits;
 public class LawsuitsController: ControllerBase
 {
     private ILogger<LawsuitsController> _logger;
-    private IApiHelper _apiHelper;
 
-    public LawsuitsController(ILogger<LawsuitsController> logger, IApiHelper apiHelper)
+    public LawsuitsController(ILogger<LawsuitsController> logger)
     {
         _logger = logger;
-        _apiHelper = apiHelper;
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public IActionResult Get()
     {
-        var response = await _apiHelper.GetAsync<FlaskResponse>("/");
-        return Ok(response.Content);
+        throw new NotImplementedException();
     }
 
     [HttpPost]

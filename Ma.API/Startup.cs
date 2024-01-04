@@ -137,6 +137,14 @@ public class Startup
     public void Configure(IApplicationBuilder app, IHostEnvironment env)
     {
         app.UseRouting();
+
+        app.UseHttpsRedirection();
+
+        # region Middlewares
+        app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+
+        # endregion
+
         app.UseEndpoints(s =>
         {
             s.MapControllers();
@@ -147,13 +155,6 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
-        app.UseHttpsRedirection();
-        # region Middlewares
-
-        app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
-
-        # endregion
 
 
     }
