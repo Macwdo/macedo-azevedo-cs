@@ -32,6 +32,13 @@ public class Startup
 
         #endregion
 
+        // TODO: Configure Health checks
+        #region HealthChecks
+
+        ConfigureHealthChecks(services);
+
+        #endregion
+
         #region Loggers
         ConfigureLogging(services);
 
@@ -39,18 +46,16 @@ public class Startup
 
         #region Services DI
 
-        services.AddHttpClient<IApiHelper, ApiHelper>(client => {
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            client.DefaultRequestHeaders.Add("ContentType", "application/json");
-        });
-
-
-
         ConfigureDiServices(services);
+
+        ConfigureValidators(services);
+
+        ConfigureHttpClients(services);
 
         #endregion
 
         #region Middlewares
+
         ConfigureMiddlewares(services);
 
         #endregion
@@ -64,6 +69,11 @@ public class Startup
         ConfigureAutoMapper(services);
 
         #endregion
+
+    }
+
+    private void ConfigureHealthChecks(IServiceCollection services)
+    {
 
     }
 
@@ -92,6 +102,16 @@ public class Startup
 
     private void ConfigureValidators(IServiceCollection services){
         services.AddScoped<IValidator<CreateRegistryDto>, CreateRegistryDtoValidator>();
+    }
+
+    private void ConfigureHttpClients(IServiceCollection services)
+    {
+        services.AddHttpClient<IApiHelper, ApiHelper>(client => {
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.DefaultRequestHeaders.Add("ContentType", "application/json");
+
+            client.BaseAddress = new Uri("http://localhost:5000");
+        });
     }
 
     private void ConfigureMiddlewares(IServiceCollection services)

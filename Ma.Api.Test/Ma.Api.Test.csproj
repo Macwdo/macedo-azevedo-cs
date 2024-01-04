@@ -29,4 +29,9 @@
       <ProjectReference Include="..\Ma.API\Ma.API.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="System\IntegrationTests\Controllers\" />
+      <Folder Include="System\UnitTests\" />
+    </ItemGroup>
+
 </Project>

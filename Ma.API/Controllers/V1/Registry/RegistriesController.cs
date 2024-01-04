@@ -1,13 +1,12 @@
-using System.ComponentModel.DataAnnotations;
 using Ma.API.Exceptions;
 using Ma.API.Models.Registry;
 using Ma.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ma.API.Controllers.Registry;
+namespace Ma.API.Controllers.V1.Registry;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/v1/[controller]")]
 public class RegistriesController: ControllerBase
 {
     private readonly IRegistryService _registryService;

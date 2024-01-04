@@ -9,9 +9,8 @@ public class ApiHelper: IApiHelper
 
     private readonly HttpClient _httpClient;
     private readonly ILogger<ApiHelper> _logger;
-    public ApiHelper(HttpClient httpClient, ILogger<ApiHelper> logger, string baseUrl)
+    public ApiHelper(HttpClient httpClient, ILogger<ApiHelper> logger)
     {
-        httpClient.BaseAddress = new Uri(baseUrl);
         _httpClient = httpClient;
         _logger = logger;
     }
@@ -26,6 +25,7 @@ public class ApiHelper: IApiHelper
 
             var responseBodyJsonString = await response.Content.ReadAsStringAsync();
             var responseBody = JsonSerializer.Deserialize<T>(responseBodyJsonString);
+            _logger.LogInformation("Response: {responseBody}", responseBodyJsonString);
             return new Response<T?>()
             {
                 StatusCode = response.StatusCode,
@@ -38,17 +38,11 @@ public class ApiHelper: IApiHelper
             throw new ClientErrorException($"Error trying to request {url}, StatusCode: {response.StatusCode}");
         }
     }
-
-    public async Task<Response<T>> CallAsync<T>(string url, HttpMethod method, object body = null)
-    {
-        throw new NotImplementedException();
-    }
 }
 
 public interface IApiHelper
 {
     Task<Response<T?>> GetAsync<T>(string url);
-    Task<Response<T>> CallAsync<T>(string url, HttpMethod method, object body = null);
 }
 
 

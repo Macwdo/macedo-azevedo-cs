@@ -7,11 +7,11 @@ using Ma.API.Models.Registry;
 using Ma.API.Repository;
 using Ma.API.Services;
 using Ma.Api.Test.Fixtures.Entities;
+using Ma.Api.Validators.Registry;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Ma.Api.Validators.Registry;
 
-namespace Ma.Api.Test.System.Services;
+namespace Ma.Api.Test.System.UnitTests.Services;
 
 public class RegistryServiceTest
 {

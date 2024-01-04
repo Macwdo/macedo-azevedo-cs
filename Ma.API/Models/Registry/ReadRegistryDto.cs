@@ -1,4 +1,5 @@
 using Ma.API.Models.Lawyer;
+using Newtonsoft.Json;
 
 namespace Ma.API.Models.Registry;
 

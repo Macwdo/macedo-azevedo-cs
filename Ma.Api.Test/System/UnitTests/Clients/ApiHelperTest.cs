@@ -5,10 +5,9 @@ using Ma.API.Exceptions;
 using Ma.Api.Test.Extensions;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Moq.Protected;
 using Uri = System.Uri;
 
-namespace Ma.Api.Test.System.Clients;
+namespace Ma.Api.Test.System.UnitTests.Clients;
 
 
 public class ApiHelperTest

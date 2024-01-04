@@ -1,13 +1,12 @@
 using FluentAssertions;
-using Ma.API.Controllers.Registry;
+using Ma.API.Controllers.V1.Registry;
 using Ma.API.Models.Registry;
 using Ma.API.Services;
 using Ma.Api.Test.Fixtures.Dtos;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
-namespace Ma.Api.Test.System.Controllers;
+namespace Ma.Api.Test.System.UnitTests.Controllers;
 
 public class RegistriesControllerTest
 {
