@@ -36,16 +36,16 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : clas
         return _context.Set<TEntity>().ToList();
     }
 
-    public IEnumerable<TEntity> GetAllFilteredByStringSearch(string search)
-    {
-        throw new NotImplementedException();
-    }
-
     public IEnumerable<TEntity> GetAllReadOnly()
     {
         return _context.Set<TEntity>().AsNoTracking().ToList();
     }
 
+    public IEnumerable<TEntity> GetAllReadOnlyPaginated(int skip, int take)
+    {
+        skip = skip == 0 ? 1 : skip;
+        return _context.Set<TEntity>().AsNoTracking().Skip((skip - 1) * take).Take(take).ToList();
+    }
     public TEntity? Get(int id)
     {
         return _context.Set<TEntity>().Find(id);

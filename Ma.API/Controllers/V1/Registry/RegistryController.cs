@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ma.API.Controllers.V1.Registry;
 
 [ApiController]
-[Route("api/v1/[controller]")]
-public class RegistriesController: ControllerBase
+[Route("api/v1/registries")]
+public class RegistryController: ControllerBase
 {
     private readonly IRegistryService _registryService;
 
-    public RegistriesController(IRegistryService registryService)
+    public RegistryController(IRegistryService registryService)
     {
         _registryService = registryService;
     }

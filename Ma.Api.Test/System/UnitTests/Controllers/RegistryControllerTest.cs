@@ -8,10 +8,10 @@ using Moq;
 
 namespace Ma.Api.Test.System.UnitTests.Controllers;
 
-public class RegistriesControllerTest
+public class RegistryControllerTest
 {
 
-    public RegistriesControllerTest()
+    public RegistryControllerTest()
     {
     }
 
@@ -26,7 +26,7 @@ public class RegistriesControllerTest
             .Returns(fixture)
         ;
 
-        var controller = new RegistriesController(mockedService.Object);
+        var controller = new RegistryController(mockedService.Object);
         // Act
         var controllerResult = (OkObjectResult)controller.GetAll();
 
@@ -45,7 +45,7 @@ public class RegistriesControllerTest
             .Setup(s => s.GetRegistries())
             .Returns(readRegistriesDtoFixture);
 
-        var controller = new RegistriesController(mockedService.Object);
+        var controller = new RegistryController(mockedService.Object);
 
         // Act
         var controllerResult = (OkObjectResult)controller.GetAll();
@@ -66,7 +66,7 @@ public class RegistriesControllerTest
             .Setup(s => s.GetRegistry(1))
             .Returns(readRegistryDtoFixture);
 
-        var controller = new RegistriesController(mockedService.Object);
+        var controller = new RegistryController(mockedService.Object);
         // Act
         var controllerResult = (OkObjectResult)controller.Get(1);
 
@@ -86,7 +86,7 @@ public class RegistriesControllerTest
             .Setup(s => s.GetRegistry(1))
             .Returns(readRegistryDto);
 
-        var controller = new RegistriesController(mockedService.Object);
+        var controller = new RegistryController(mockedService.Object);
         // Act
         var controllerResult = (NotFoundResult)controller.Get(1);
 

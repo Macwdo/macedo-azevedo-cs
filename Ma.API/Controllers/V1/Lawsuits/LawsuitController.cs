@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using Ma.API.Entities.Lawsuit;
-using Ma.API.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -8,12 +7,12 @@ namespace Ma.API.Controllers.V1.Lawsuits;
 
 
 [ApiController]
-[Route("api/v1/[controller]")]
-public class LawsuitsController: ControllerBase
+[Route("api/v1/lawsuits")]
+public class LawsuitController: ControllerBase
 {
-    private ILogger<LawsuitsController> _logger;
+    private ILogger<LawsuitController> _logger;
 
-    public LawsuitsController(ILogger<LawsuitsController> logger)
+    public LawsuitController(ILogger<LawsuitController> logger)
     {
         _logger = logger;
     }

@@ -7,8 +7,8 @@ public interface IRepository<TEntity> where TEntity : class
 
     TEntity Create(TEntity entity);
     IEnumerable<TEntity> Get();
-    IEnumerable<TEntity> GetAllFilteredByStringSearch(string search);
     IEnumerable<TEntity> GetAllReadOnly();
+    IEnumerable<TEntity> GetAllReadOnlyPaginated(int skip, int take);
 
     TEntity? Get(int id);
     TEntity Update(TEntity entity);

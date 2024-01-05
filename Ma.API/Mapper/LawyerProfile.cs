@@ -10,7 +10,13 @@ public class LawyerProfile: Profile
     public LawyerProfile()
     {
 
+        CreateMap<CreateLawyerDto, Lawyer>();
         CreateMap<ReadLawyerDto, Lawyer>();
-        CreateMap<Lawyer, ReadLawyerDto>();
+        CreateMap<Lawyer, ReadLawyerDto>()
+            .ForMember(
+                dest => dest.User,
+                opt => opt.MapFrom(src => src.User));
+        CreateMap<UpdateLawyerDto, Lawyer>();
+
     }
 }

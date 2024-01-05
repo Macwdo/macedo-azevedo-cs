@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using FluentValidation.Validators;
 using Ma.API.Entities;
 using Ma.API.Repository;
 
