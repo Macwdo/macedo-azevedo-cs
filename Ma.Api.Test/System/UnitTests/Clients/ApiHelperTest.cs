@@ -31,7 +31,7 @@ public class ApiHelperTest
             BaseAddress = new Uri(mockBaseUrl
 )
         };
-        var apiHelper = new ApiHelper(mockHttpClient, mockLogger.Object, mockBaseUrl);
+        var apiHelper = new ApiHelper(mockHttpClient, mockLogger.Object);
 
         // Act
         var response = await apiHelper.GetAsync<string>("testurl");
@@ -58,7 +58,7 @@ public class ApiHelperTest
             BaseAddress = new Uri(mockBaseUrl
             )
         };
-        var apiHelper = new ApiHelper(mockHttpClient, mockLogger.Object, mockBaseUrl);
+        var apiHelper = new ApiHelper(mockHttpClient, mockLogger.Object);
 
         // Act
         Func<Task> requestAction = async () => await apiHelper.GetAsync<string>("testurl");

@@ -293,6 +293,56 @@ public class RegistryServiceTest
         updateRegistryAction.Should().Throw<NotFoundEntityException>();
     }
 
+    [Fact]
+    public void UpdateRegistry_WhenExists_ShouldUpdate()
+    {
+        // Arrange
+        var registryFixture = RegistryFixture.Registry(1);
+
+        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        mockRegistryRepository
+            .Setup(x => x.Get(1))
+            .Returns(registryFixture);
+
+        var updateRegistryDtoFixture = new UpdateRegistryDto(
+            $"{registryFixture.Name} Updated",
+            $"email.update@mail.com",
+            registryFixture.Image,
+            null
+        );
+
+        registryFixture.Name = updateRegistryDtoFixture.Name!;
+        registryFixture.Email = updateRegistryDtoFixture.Email;
+
+        mockRegistryRepository
+            .Setup(x => x.Update(registryFixture))
+            .Returns(registryFixture);
+
+        var mockAutoMapper = new Mock<IMapper>();
+        mockAutoMapper
+            .Setup(a => a.Map(updateRegistryDtoFixture, registryFixture))
+            .Returns(registryFixture);
+
+        mockAutoMapper.
+            Setup(a => a.Map<ReadRegistryDto>(registryFixture))
+            .Returns(MapRegistryToReadRegistryDto(registryFixture));
+
+        var mockLogger = new Mock<ILogger<RegistryService>>();
+        var mockValidator = new Mock<IValidator<CreateRegistryDto>>();
+        var registryService = new RegistryService(
+            mockRegistryRepository.Object,
+            mockAutoMapper.Object,
+            mockLogger.Object,
+            mockValidator.Object
+        );
+
+        // Act
+        var updatedRegistry = registryService.UpdateRegistry(1, updateRegistryDtoFixture);
+
+        // Assert
+        updatedRegistry.Name.Should().Be(updateRegistryDtoFixture.Name);
+        updatedRegistry.Email.Should().Be(updateRegistryDtoFixture.Email);
+    }
 
     [Fact]
     public void DeleteRegistry_WhenNotFound_ShouldThrow()
