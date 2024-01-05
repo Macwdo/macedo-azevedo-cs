@@ -3,9 +3,12 @@ using Ma.Api.Validators.Registry;
 using Ma.API.Clients;
 using Ma.API.Data;
 using Ma.API.Middlewares;
+using Ma.API.Models.Lawsuit;
+using Ma.API.Models.Lawyer;
 using Ma.API.Models.Registry;
 using Ma.API.Repository;
 using Ma.API.Services;
+using Ma.API.Validators.Lawyer;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -98,9 +101,14 @@ public class Startup
     {
         services.AddScoped<IRegistryService, RegistryService>();
         services.AddScoped<ILawsuitService, LawsuitService>();
+        services.AddScoped(typeof(IGenericCrudService<,,,>), typeof(GenericCrudService<,,,>));
+
     }
 
     private void ConfigureValidators(IServiceCollection services){
+        services.AddScoped<IValidator<CreateLawyerDto>, CreateLawyerDtoValidator>();
+        services.AddScoped<IValidator<UpdateLawyerDto>, UpdateLawyerDtoValidator>();
+
         services.AddScoped<IValidator<CreateRegistryDto>, CreateRegistryDtoValidator>();
     }
 
