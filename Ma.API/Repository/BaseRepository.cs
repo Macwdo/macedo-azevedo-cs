@@ -44,7 +44,13 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : clas
     public IEnumerable<TEntity> GetAllReadOnlyPaginated(int skip, int take)
     {
         skip = skip == 0 ? 1 : skip;
-        return _context.Set<TEntity>().AsNoTracking().Skip((skip - 1) * take).Take(take).ToList();
+        return _context.Set<TEntity>()
+            .AsNoTracking()
+            .AsEnumerable()
+            .OrderBy(x => x.GetType().GetProperty("Id")?.GetValue(x))
+            .Skip((skip - 1) * take)
+            .Take(take)
+            .ToList();
     }
     public TEntity? Get(int id)
     {

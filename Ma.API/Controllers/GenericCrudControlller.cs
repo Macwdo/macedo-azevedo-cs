@@ -1,4 +1,5 @@
 using Ma.API.Exceptions;
+using Ma.API.Helpers;
 using Ma.API.Models;
 using Ma.API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -13,16 +14,16 @@ public class GenericCrudControlller<TEntity, TCreateDto, TReadDto, TUpdateDto> :
     where TUpdateDto : class
 {
 
-    protected readonly IGenericCrudService<TEntity, TCreateDto, TReadDto, TUpdateDto> service;
+    protected readonly IGenericCrudService<TEntity, TCreateDto, TReadDto, TUpdateDto> Service;
     public GenericCrudControlller(IGenericCrudService<TEntity, TCreateDto, TReadDto, TUpdateDto> service)
     {
-        this.service = service;
+        Service = service;
     }
     
     [HttpGet]
-    public IActionResult GetAll(int skip=1, int take=10)
+    public IActionResult GetAll(int skip=0, int take=10)
     {
-        var entitiesDto = service.GetAllPaginated(skip, take).ToList();
+        var entitiesDto = Service.GetAllPaginated(skip, take).ToList();
         var paginationModel = new PaginationModel<TReadDto>(entitiesDto, skip, take, entitiesDto.Count());
         return Ok(paginationModel);
     }
@@ -30,7 +31,7 @@ public class GenericCrudControlller<TEntity, TCreateDto, TReadDto, TUpdateDto> :
     [HttpGet("{id}")]
     public IActionResult Get(int id)
     {
-        var entityDto = service.Get(id);
+        var entityDto = Service.Get(id);
         if (entityDto is null)
             return NotFound();
         return Ok(entityDto);
@@ -41,7 +42,7 @@ public class GenericCrudControlller<TEntity, TCreateDto, TReadDto, TUpdateDto> :
     {
         try
         {
-            var entityDto = service.Create(dto);
+            var entityDto = Service.Create(dto);
             var id = GetIdFromEntityDto(entityDto);
             return CreatedAtAction(nameof(Get), new { id }, entityDto);
 
@@ -70,7 +71,7 @@ public class GenericCrudControlller<TEntity, TCreateDto, TReadDto, TUpdateDto> :
     {
         try
         {
-            var entityDto = service.Update(id, dto);
+            var entityDto = Service.Update(id, dto);
             return Ok(entityDto);
         }
         catch (NotFoundEntityException e)
@@ -92,7 +93,7 @@ public class GenericCrudControlller<TEntity, TCreateDto, TReadDto, TUpdateDto> :
     {
         try
         {
-            service.Delete(id);
+            Service.Delete(id);
             return NoContent();
         }
         catch (NotFoundEntityException e)
