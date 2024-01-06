@@ -1,6 +1,4 @@
-using System.ComponentModel.DataAnnotations;
-
-namespace Ma.API.DTOs.User;
+namespace Ma.API.Models.User;
 
 public record ReadUserDto(
     int Id,

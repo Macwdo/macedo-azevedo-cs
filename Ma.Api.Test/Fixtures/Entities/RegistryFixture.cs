@@ -4,7 +4,7 @@ namespace Ma.Api.Test.Fixtures.Entities;
 
 public static class RegistryFixture
 {
-    public static Registry Registry(int id, Lawyer? lawyer=null) => new Registry
+    public static RegistryEntity Registry(int id, LawyerEntity? lawyer=null) => new RegistryEntity
     {
         Id = id,
         CreatedAt = DateTime.Now,
@@ -16,9 +16,9 @@ public static class RegistryFixture
         LawyerResponsibleId = lawyer?.Id,
     };
 
-    public static IEnumerable<Registry> Registries(int quantity, bool lawyer=true)
+    public static IEnumerable<RegistryEntity> Registries(int quantity, bool lawyer=true)
     {
-        var lawyers = lawyer ? LawyerFixture.Lawyers(quantity): new List<Lawyer>();
+        var lawyers = lawyer ? LawyerFixture.Lawyers(quantity): new List<LawyerEntity>();
         var registries = Enumerable.Range(0, quantity).Select(i => Registry(i, lawyers.ElementAtOrDefault(i)));
         return registries;
     }

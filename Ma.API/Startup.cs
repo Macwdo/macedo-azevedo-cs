@@ -8,6 +8,7 @@ using Ma.API.Models.Lawyer;
 using Ma.API.Models.Registry;
 using Ma.API.Repository;
 using Ma.API.Services;
+using Ma.API.Validators.Lawsuit;
 using Ma.API.Validators.Lawyer;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -37,7 +38,6 @@ public class Startup
 
         // TODO: Configure Health checks
         #region HealthChecks
-
         ConfigureHealthChecks(services);
 
         #endregion
@@ -100,12 +100,15 @@ public class Startup
     private void ConfigureDiServices(IServiceCollection services)
     {
         services.AddScoped<IRegistryService, RegistryService>();
-        services.AddScoped<ILawsuitService, LawsuitService>();
         services.AddScoped(typeof(IGenericCrudService<,,,>), typeof(GenericCrudService<,,,>));
 
     }
 
     private void ConfigureValidators(IServiceCollection services){
+
+        services.AddScoped<IValidator<CreateLawsuitDto>, CreateLawsuitDtoValidator>();
+        services.AddScoped<IValidator<UpdateLawsuitDto>, UpdateLawsuitDtoValidator>();
+
         services.AddScoped<IValidator<CreateLawyerDto>, CreateLawyerDtoValidator>();
         services.AddScoped<IValidator<UpdateLawyerDto>, UpdateLawyerDtoValidator>();
 
@@ -132,6 +135,7 @@ public class Startup
         services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
         var connectionString = Configuration.GetConnectionString("postgres");
+        // TODO: Add integration test, add lazy loading
         services.AddNpgsql<ApplicationContext>(connectionString);
 
     }

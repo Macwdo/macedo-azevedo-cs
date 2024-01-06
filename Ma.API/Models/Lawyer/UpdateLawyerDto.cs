@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Ma.API.DTOs.User;
 using Ma.API.Validators;
 
 namespace Ma.API.Models.Lawyer;
@@ -14,6 +13,6 @@ public record UpdateLawyerDto
     string Cpf,
     [Required, MaxLength(20)]
     string Oab,
-    [EntityExistsValidator<Entities.User>]
+    [EntityExistsValidator<Entities.UserEntity>]
     int? UserId
 );

@@ -16,16 +16,16 @@ namespace Ma.Api.Test.System.UnitTests.Services;
 public class RegistryServiceTest
 {
 
-    private ReadRegistryDto MapRegistryToReadRegistryDto(Registry registry)
+    private ReadRegistryDto MapRegistryToReadRegistryDto(RegistryEntity registryEntity)
     {
         return new ReadRegistryDto(
-            registry.Id,
-            registry.Name,
-            registry.Email,
-            registry.Image,
+            registryEntity.Id,
+            registryEntity.Name,
+            registryEntity.Email,
+            registryEntity.Image,
             null,
-            registry.CreatedAt,
-            registry.UpdatedAt
+            registryEntity.CreatedAt,
+            registryEntity.UpdatedAt
         );
     }
 
@@ -35,7 +35,7 @@ public class RegistryServiceTest
         // Arrange
         var registryFixture = RegistryFixture.Registry(1);
 
-        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        var mockRegistryRepository = new Mock<IRepository<RegistryEntity>>();
         mockRegistryRepository
             .Setup(x => x.Get(1))
             .Returns(registryFixture);
@@ -68,10 +68,10 @@ public class RegistryServiceTest
     public void GetRegistry_OnNotFound_ReturnsNull()
     {
         // Arrange
-        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        var mockRegistryRepository = new Mock<IRepository<RegistryEntity>>();
         mockRegistryRepository
             .Setup(x => x.Get(1))
-            .Returns((Registry?)null);
+            .Returns((RegistryEntity?)null);
 
         var mockAutoMapper = new Mock<IMapper>();
         var mockLogger = new Mock<ILogger<RegistryService>>();
@@ -97,17 +97,17 @@ public class RegistryServiceTest
         // Arrange
         var registryFixture = RegistryFixture.Registry(1);
 
-        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        var mockRegistryRepository = new Mock<IRepository<RegistryEntity>>();
         mockRegistryRepository
             .Setup(x => x.GetAllReadOnly())
-            .Returns(new List<Registry> { registryFixture });
+            .Returns(new List<RegistryEntity> { registryFixture });
 
         var readRegistryDtoFixture = MapRegistryToReadRegistryDto(registryFixture);
 
         var mockAutoMapper = new Mock<IMapper>();
         mockAutoMapper
             .Setup(a =>
-                a.Map<IEnumerable<ReadRegistryDto>>(new List<Registry> { registryFixture })
+                a.Map<IEnumerable<ReadRegistryDto>>(new List<RegistryEntity> { registryFixture })
                 )
             .Returns(new List<ReadRegistryDto> { readRegistryDtoFixture });
 
@@ -133,7 +133,7 @@ public class RegistryServiceTest
         // Arrange
         var registryFixture = RegistryFixture.Registry(1);
 
-        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        var mockRegistryRepository = new Mock<IRepository<RegistryEntity>>();
         mockRegistryRepository
             .Setup(x => x.Create(registryFixture))
             .Returns(registryFixture);
@@ -150,7 +150,7 @@ public class RegistryServiceTest
         var mockAutoMapper = new Mock<IMapper>();
 
         mockAutoMapper
-            .Setup(a => a.Map<Registry>(createRegistryDtoFixture))
+            .Setup(a => a.Map<RegistryEntity>(createRegistryDtoFixture))
             .Returns(registryFixture);
 
         mockAutoMapper
@@ -187,7 +187,7 @@ public class RegistryServiceTest
         registryFixture.Email = email;
         registryFixture.Image = new (image);
 
-        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        var mockRegistryRepository = new Mock<IRepository<RegistryEntity>>();
         mockRegistryRepository
             .Setup(x => x.Create(registryFixture))
             .Returns(registryFixture);
@@ -203,7 +203,7 @@ public class RegistryServiceTest
 
         var mockAutoMapper = new Mock<IMapper>();
         mockAutoMapper
-            .Setup(a => a.Map<Registry>(createRegistryDtoFixture))
+            .Setup(a => a.Map<RegistryEntity>(createRegistryDtoFixture))
             .Returns(registryFixture);
 
         mockAutoMapper
@@ -236,7 +236,7 @@ public class RegistryServiceTest
         // Arrange
         var registryFixture = RegistryFixture.Registry(1);
 
-        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        var mockRegistryRepository = new Mock<IRepository<RegistryEntity>>();
         mockRegistryRepository
             .Setup(x => x.Get(1))
             .Returns(registryFixture);
@@ -264,10 +264,10 @@ public class RegistryServiceTest
         // Arrange
         var registryFixture = RegistryFixture.Registry(1);
 
-        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        var mockRegistryRepository = new Mock<IRepository<RegistryEntity>>();
         mockRegistryRepository
             .Setup(x => x.Get(1))
-            .Returns((Registry?)null);
+            .Returns((RegistryEntity?)null);
 
         var updateRegistryDtoFixture = new UpdateRegistryDto(
             registryFixture.Name,
@@ -299,7 +299,7 @@ public class RegistryServiceTest
         // Arrange
         var registryFixture = RegistryFixture.Registry(1);
 
-        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        var mockRegistryRepository = new Mock<IRepository<RegistryEntity>>();
         mockRegistryRepository
             .Setup(x => x.Get(1))
             .Returns(registryFixture);
@@ -350,10 +350,10 @@ public class RegistryServiceTest
         // Arrange
         var registryFixture = RegistryFixture.Registry(1);
 
-        var mockRegistryRepository = new Mock<IRepository<Registry>>();
+        var mockRegistryRepository = new Mock<IRepository<RegistryEntity>>();
         mockRegistryRepository
             .Setup(x => x.Get(1))
-            .Returns((Registry?)null);
+            .Returns((RegistryEntity?)null);
 
         var mockAutoMapper = new Mock<IMapper>();
         var mockLogger = new Mock<ILogger<RegistryService>>();

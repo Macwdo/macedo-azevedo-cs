@@ -7,9 +7,9 @@ namespace Ma.API.Controllers.V1.Lawyer;
 
 [ApiController]
 [Route("api/v1/lawyers")]
-public class LawyerController: GenericCrudControlller<Entities.Lawyer, CreateLawyerDto, ReadLawyerDto, UpdateLawyerDto>
+public class LawyerController: GenericCrudControlller<Entities.LawyerEntity, CreateLawyerDto, ReadLawyerDto, UpdateLawyerDto>
 {
-    public LawyerController(IGenericCrudService<Entities.Lawyer, CreateLawyerDto, ReadLawyerDto, UpdateLawyerDto> service) : base(service)
+    public LawyerController(IGenericCrudService<Entities.LawyerEntity, CreateLawyerDto, ReadLawyerDto, UpdateLawyerDto> service) : base(service)
     {
     }
 }

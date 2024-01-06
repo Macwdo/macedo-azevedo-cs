@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using Ma.API.DTOs.User;
 using Ma.API.Validators;
+using Ma.API.Entities;
 
 namespace Ma.API.Models.Lawyer;
 
@@ -13,6 +13,6 @@ public record CreateLawyerDto(
     string Cpf,
     [Required, MaxLength(20)]
     string Oab,
-    [EntityExistsValidator<Entities.User>]
+    [EntityExistsValidator<UserEntity>]
     int? UserId
 );

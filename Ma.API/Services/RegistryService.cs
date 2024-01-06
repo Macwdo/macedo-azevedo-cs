@@ -12,13 +12,13 @@ namespace Ma.API.Services;
 // TODO: Add Tests
 public class RegistryService: IRegistryService
 {
-    private readonly IRepository<Registry> _repository;
+    private readonly IRepository<RegistryEntity> _repository;
     private readonly IMapper _mapper;
     private readonly ILogger<RegistryService> _logger;
 
     private readonly IValidator<CreateRegistryDto> _createRegistryDtoValidator;
 
-    public RegistryService(IRepository<Registry> repository, IMapper mapper, ILogger<RegistryService> logger, IValidator<CreateRegistryDto> createRegistryDtoValidator)
+    public RegistryService(IRepository<RegistryEntity> repository, IMapper mapper, ILogger<RegistryService> logger, IValidator<CreateRegistryDto> createRegistryDtoValidator)
     {
         _repository = repository;
         _mapper = mapper;
@@ -35,7 +35,7 @@ public class RegistryService: IRegistryService
             throw new InvalidModelException(errors: result.Errors.Select(x => x.ErrorMessage));
         }
 
-        var registryEntity = _mapper.Map<Registry>(createRegistryDto);
+        var registryEntity = _mapper.Map<RegistryEntity>(createRegistryDto);
         _repository.Create(registryEntity);
         var readRegistryDto = _mapper.Map<ReadRegistryDto>(registryEntity);
         return readRegistryDto;
@@ -57,7 +57,7 @@ public class RegistryService: IRegistryService
     public ReadRegistryDto UpdateRegistry(int id, UpdateRegistryDto updateRegistryDto)
     {
         var registry = _repository.Get(id);
-        if (registry is null) throw new NotFoundEntityException(typeof(Registry), id);
+        if (registry is null) throw new NotFoundEntityException(typeof(RegistryEntity), id);
         _mapper.Map(updateRegistryDto, registry);
         _repository.Update(registry);
         return _mapper.Map<ReadRegistryDto>(registry);
@@ -69,6 +69,6 @@ public class RegistryService: IRegistryService
         if (registry is not null)
             _repository.Delete(registry);
         else
-            throw new NotFoundEntityException(typeof(Registry), id);
+            throw new NotFoundEntityException(typeof(RegistryEntity), id);
     }
 }

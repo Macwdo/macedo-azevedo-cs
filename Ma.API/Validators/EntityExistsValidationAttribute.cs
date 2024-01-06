@@ -17,7 +17,7 @@ public class EntityExistsValidatorAttribute<TEntity>: ValidationAttribute where 
 
         var entity = entityRepository.Get(entityId.Value);
         if (entity is null)
-            return new ValidationResult($"{entity} by id={entityId} does not exist");
+            return new ValidationResult($"{typeof(TEntity).Name} by id={entityId} does not exist");
 
         return ValidationResult.Success;
     }

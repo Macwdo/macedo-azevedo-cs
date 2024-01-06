@@ -4,7 +4,7 @@ namespace Ma.Api.Test.Fixtures.Entities;
 
 public static class LawyerFixture
 {
-    public static Lawyer Lawyer (int id, User? user) => new Lawyer
+    public static LawyerEntity Lawyer (int id, UserEntity? user) => new LawyerEntity
     {
         Cpf = $"XXX.XXX.XXX-{id}",
         Email = $"lawyer.something{id}@email.com",
@@ -17,9 +17,9 @@ public static class LawyerFixture
         UserId = user?.Id
     };
 
-    public static IEnumerable<Lawyer> Lawyers (int quantity, bool user=true)
+    public static IEnumerable<LawyerEntity> Lawyers (int quantity, bool user=true)
     {
-        var users = user ? UserFixture.Users(quantity): new List<User>();
+        var users = user ? UserFixture.Users(quantity): new List<UserEntity>();
         var lawyers = Enumerable.Range(0, quantity).Select(i => Lawyer(i, users.ElementAtOrDefault(i)));
         return lawyers;
     }

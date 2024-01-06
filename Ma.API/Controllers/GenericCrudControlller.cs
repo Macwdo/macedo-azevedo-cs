@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ma.API.Controllers;
 
+// TODO: Test and add authorization
 public class GenericCrudControlller<TEntity, TCreateDto, TReadDto, TUpdateDto> : ControllerBase
     where TEntity : class
     where TCreateDto : class
@@ -19,11 +20,10 @@ public class GenericCrudControlller<TEntity, TCreateDto, TReadDto, TUpdateDto> :
     }
     
     [HttpGet]
-    public IActionResult GetAll(int skip=1, int take = 10)
+    public IActionResult GetAll(int skip=1, int take=10)
     {
         var entitiesDto = service.GetAllPaginated(skip, take).ToList();
-        var paginationInfo = new PaginationInfo(skip, take, entitiesDto.Count());
-        var paginationModel = new PaginationModel<TReadDto>(entitiesDto, paginationInfo);
+        var paginationModel = new PaginationModel<TReadDto>(entitiesDto, skip, take, entitiesDto.Count());
         return Ok(paginationModel);
     }
     

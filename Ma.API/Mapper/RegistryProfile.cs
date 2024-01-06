@@ -8,10 +8,10 @@ public class RegistryProfile: Profile
 {
     public RegistryProfile()
     {
-        CreateMap<CreateRegistryDto, Registry>();
-        CreateMap<ReadRegistryDto, Registry>();
-        CreateMap<UpdateRegistryDto, Registry>();
-        CreateMap<Registry, ReadRegistryDto>()
+        CreateMap<CreateRegistryDto, RegistryEntity>();
+        CreateMap<ReadRegistryDto, RegistryEntity>();
+        CreateMap<UpdateRegistryDto, RegistryEntity>();
+        CreateMap<RegistryEntity, ReadRegistryDto>()
             .ForMember(
                 dest => dest.LawyerResponsible,
                 opt => opt.MapFrom(src => src.LawyerResponsible)

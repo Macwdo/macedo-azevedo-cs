@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ma.API.Entities;
 
-public class Lawyer: BaseEntity
+public class LawyerEntity: BaseEntity
 {
     [StringLength(60)]
     public string Name { get; set; } = string.Empty;
@@ -14,7 +14,7 @@ public class Lawyer: BaseEntity
 
     [ForeignKey("UserId")]
     public int? UserId { get; set; }
-    public User? User { get; set; }
+    public UserEntity? User { get; set; }
     [StringLength(20)]
     public string Oab { get; set; } = string.Empty;
 

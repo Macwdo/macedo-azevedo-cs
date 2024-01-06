@@ -1,10 +1,11 @@
 using Ma.API.Entities;
 using Ma.API.Entities.Lawsuit;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ma.API.Data ;
 
-public class ApplicationContext: DbContext
+public class ApplicationContext: IdentityDbContext
 {
     public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
     {
@@ -42,12 +43,12 @@ public class ApplicationContext: DbContext
     }
 
     // TODO: Break this into multiple files
-    public DbSet<Lawsuit> Lawsuits => Set<Lawsuit>();
-    public DbSet<LawsuitFees> LawsuitFees => Set<LawsuitFees>();
-    public DbSet<LawsuitFiles> LawsuitFiles => Set<LawsuitFiles>();
+    public DbSet<LawsuitEntity> Lawsuits => Set<LawsuitEntity>();
+    public DbSet<LawsuitFeesEntity> LawsuitFees => Set<LawsuitFeesEntity>();
+    public DbSet<LawsuitFilesEntity> LawsuitFiles => Set<LawsuitFilesEntity>();
 
 
-    public DbSet<Registry> Registries => Set<Registry>();
-    public DbSet<Lawyer> Lawyers => Set<Lawyer>();
-    public DbSet<User> Users => Set<User>();
+    public DbSet<RegistryEntity> Registries => Set<RegistryEntity>();
+    public DbSet<LawyerEntity> Lawyers => Set<LawyerEntity>();
+    public DbSet<UserEntity> Users => Set<UserEntity>();
 }

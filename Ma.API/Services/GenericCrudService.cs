@@ -37,7 +37,6 @@ public class GenericCrudService<TEntity, TCreateDto, TReadDto, TUpdateDto> :
         if (!validationResult.IsValid)
         {
             _logger.LogError("Error trying to create entity with invalid model");
-
             throw new InvalidModelException(validationResult.Errors.Select(e => e.ErrorMessage));
         }
 

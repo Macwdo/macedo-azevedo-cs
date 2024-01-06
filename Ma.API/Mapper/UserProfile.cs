@@ -1,6 +1,6 @@
 using AutoMapper;
-using Ma.API.DTOs.User;
 using Ma.API.Entities;
+using Ma.API.Models.User;
 
 namespace Ma.API.Mapper;
 
@@ -8,7 +8,7 @@ public class UserProfile: Profile
 {
     public UserProfile()
     {
-        CreateMap<ReadUserDto, User>();
-        CreateMap<User, ReadUserDto>();
+        CreateMap<ReadUserDto, UserEntity>();
+        CreateMap<UserEntity, ReadUserDto>();
     }
 }

@@ -4,9 +4,9 @@ namespace Ma.Api.Test.Fixtures.Entities;
 
 public static class UserFixture
 {
-    public static User User (int id)
+    public static UserEntity User (int id)
     {
-        return new User
+        return new UserEntity
         {
             Id = id,
             CreatedAt = DateTime.Now,
@@ -16,6 +16,6 @@ public static class UserFixture
         };
     }
 
-    public static IEnumerable<User> Users(int quantity) => Enumerable.Range(0, quantity).Select(User);
+    public static IEnumerable<UserEntity> Users(int quantity) => Enumerable.Range(0, quantity).Select(User);
 
 }
