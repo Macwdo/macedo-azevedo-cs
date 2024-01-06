@@ -4,11 +4,24 @@ using Ma.API.Validators;
 
 namespace Ma.API.Models.Registry;
 
-public record CreateRegistryDto(
-    [Required, MinLength(3), MaxLength(100)] string Name,
-    [Required, EmailAddress, MaxLength(100)] string? Email,
-    Uri? Image,
-    [EntityExistsValidator<LawyerEntity>]
-    int? LawyerResponsibleId
+public class CreateRegistryDto
+{
+    [Required, MinLength(3), MaxLength(100)]
+    public string Name { get; set; }
 
-);
+    [Required, EmailAddress, MaxLength(100)]
+    public string? Email { get; set; }
+
+    public Uri? Image { get; set; }
+
+    [EntityExistsValidator<LawyerEntity>]
+    public int? LawyerResponsibleId { get; set; }
+
+    public CreateRegistryDto(string name, string? email, Uri? image, int? lawyerResponsibleId)
+    {
+        Name = name;
+        Email = email;
+        Image = image;
+        LawyerResponsibleId = lawyerResponsibleId;
+    }
+}

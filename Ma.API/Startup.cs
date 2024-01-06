@@ -75,6 +75,7 @@ public class Startup
 
     }
 
+    // TODO: Add health checks
     private void ConfigureHealthChecks(IServiceCollection services)
     {
 

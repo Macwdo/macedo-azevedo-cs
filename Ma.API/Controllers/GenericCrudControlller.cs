@@ -1,5 +1,4 @@
 using Ma.API.Exceptions;
-using Ma.API.Helpers;
 using Ma.API.Models;
 using Ma.API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +53,8 @@ public class GenericCrudControlller<TEntity, TCreateDto, TReadDto, TUpdateDto> :
         catch (InvalidModelException e)
         {
             return BadRequest(e.Message);
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             throw new ServerErrorException("Unexpected error trying to create entity");
         }

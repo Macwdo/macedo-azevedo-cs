@@ -1,18 +1,35 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Ma.API.Validators;
 using Ma.API.Entities;
+using Newtonsoft.Json;
 
 namespace Ma.API.Models.Lawyer;
 
-public record CreateLawyerDto(
-    [MinLength(3), MaxLength(100)]
-    string Name,
-    [EmailAddress, MaxLength(100)]
-    string Email,
+public class CreateLawyerDto
+{
+    [Required, MinLength(3), MaxLength(100)]
+    [JsonProperty("name")]
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = null!;
+
+    [Required, EmailAddress, MaxLength(100)]
+    [JsonProperty("email")]
+    [JsonPropertyName("email")]
+    public string Email { get; set; } = null!;
+
     [Required, MaxLength(11)]
-    string Cpf,
+    [JsonProperty("cpf")]
+    [JsonPropertyName("cpf")]
+    public string Cpf { get; set; } = null!;
+
     [Required, MaxLength(20)]
-    string Oab,
+    [JsonProperty("oab")]
+    [JsonPropertyName("oab")]
+    public string Oab { get; set; } = null!;
+
     [EntityExistsValidator<UserEntity>]
-    int? UserId
-);
+    [JsonProperty("user_id")]
+    [JsonPropertyName("user_id")]
+    public int? UserId { get; set; }
+}
