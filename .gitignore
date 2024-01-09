@@ -1,5 +1,7 @@
 **/appsettings.Development.json
 .idea/
+Ma.API/logs
+
 ###################
 # compiled source #
 ###################

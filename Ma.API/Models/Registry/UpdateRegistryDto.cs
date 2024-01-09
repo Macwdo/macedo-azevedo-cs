@@ -24,8 +24,8 @@ public class UpdateRegistryDto
     public Uri? Image { get; set; }
 
     [EntityExistsValidator<LawyerEntity>]
-    [JsonProperty("lawyer_responsible_id")]
-    [JsonPropertyName("lawyer_responsible_id")]
+    [JsonProperty("responsible_lawyer_id")]
+    [JsonPropertyName("responsible_lawyer_id")]
     public int? LawyerResponsibleId { get; set; }
 
     public UpdateRegistryDto(string? name, string? email, Uri? image, int? lawyerResponsibleId)

@@ -1,5 +1,6 @@
 using AutoMapper;
 using FluentValidation;
+using Ma.API.Clients;
 using Ma.API.Exceptions;
 using Ma.API.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +38,8 @@ public class GenericCrudService<TEntity, TCreateDto, TReadDto, TUpdateDto> :
         if (!validationResult.IsValid)
         {
             _logger.LogError("Error trying to create entity with invalid model");
-            throw new InvalidModelException(validationResult.Errors.Select(e => e.ErrorMessage));
+            var errors = validationResult.Errors.ToDictionary(error => error.PropertyName, error => new[] { error.ErrorMessage });
+            throw new InvalidModelException(errors);
         }
 
         var entity = _mapper.Map<TEntity>(createDto);
@@ -54,7 +56,7 @@ public class GenericCrudService<TEntity, TCreateDto, TReadDto, TUpdateDto> :
 
     public IEnumerable<TReadDto> GetAllPaginated(int skip, int take)
     {
-        var entities = _repository.GetAllReadOnlyPaginated(skip, take);
+        var entities = _repository.GetAllPaginated(skip, take);
         return _mapper.Map<IEnumerable<TReadDto>>(entities);
     }
 
@@ -69,8 +71,9 @@ public class GenericCrudService<TEntity, TCreateDto, TReadDto, TUpdateDto> :
         var validationResult = _updateValidator.Validate(updateDto);
         if (!validationResult.IsValid)
         {
-            _logger.LogError("Error trying to update entity {id} with invalid model", id);
-            throw new InvalidModelException(validationResult.Errors.Select(e => e.ErrorMessage));
+            var errors = validationResult.Errors.ToDictionary(error => error.PropertyName, error => new[] { error.ErrorMessage });
+            throw new InvalidModelException(errors);
+
         }
 
 

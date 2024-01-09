@@ -9,6 +9,7 @@ public interface IRepository<TEntity> where TEntity : class
     IEnumerable<TEntity> Get();
     IEnumerable<TEntity> GetAllReadOnly();
     IEnumerable<TEntity> GetAllReadOnlyPaginated(int skip, int take);
+    IEnumerable<TEntity> GetAllPaginated(int skip, int take);
 
     TEntity? Get(int id);
     TEntity Update(TEntity entity);

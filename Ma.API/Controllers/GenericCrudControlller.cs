@@ -52,7 +52,7 @@ public class GenericCrudControlller<TEntity, TCreateDto, TReadDto, TUpdateDto> :
         }
         catch (InvalidModelException e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(new {Errors = e.Errors});
         }
         catch (Exception e)
         {
@@ -80,7 +80,7 @@ public class GenericCrudControlller<TEntity, TCreateDto, TReadDto, TUpdateDto> :
         }
         catch (InvalidModelException e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(new {Errors = e.Errors});
         }
         catch (Exception e)
         {

@@ -11,6 +11,11 @@ public class ApplicationContext: IdentityDbContext
     {
     }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseLazyLoadingProxies();
+    }
+
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {

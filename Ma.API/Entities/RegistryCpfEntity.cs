@@ -4,7 +4,7 @@ namespace Ma.API.Entities;
 
 public class RegistryCpfEntity
 {
-    public required RegistryEntity RegistryEntity { get; set; }
+    public virtual required RegistryEntity RegistryEntity { get; set; }
 
     [Key, Required]
     public int RegistryId { get; set; }

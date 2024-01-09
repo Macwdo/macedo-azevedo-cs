@@ -11,17 +11,17 @@ public class CreateLawsuitDto
     [Required, MaxLength(20)]
     [JsonProperty("lawsuit_code")]
     [JsonPropertyName("lawsuit_code")]
-    public string LawsuitCode { get; set; } = null!;
+    public string LawsuitCode { get; set; } = string.Empty;
 
     [Required, MaxLength(100)]
     [JsonProperty("subject")]
     [JsonPropertyName("subject")]
-    public string Subject { get; set; } = null!;
+    public string Subject { get; set; } = string.Empty;
 
     [MaxLength(500)]
     [JsonProperty("observation")]
     [JsonPropertyName("observation")]
-    public string? Observation { get; set; }
+    public string Observation { get; set; } = string.Empty;
 
     [JsonProperty("lawsuit_client_position")]
     [JsonPropertyName("lawsuit_client_position")]

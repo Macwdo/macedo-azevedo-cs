@@ -14,7 +14,7 @@ public class LawyerEntity: BaseEntity
 
     [ForeignKey("UserId")]
     public int? UserId { get; set; }
-    public UserEntity? User { get; set; }
+    public virtual UserEntity? User { get; set; }
     [StringLength(20)]
     public string Oab { get; set; } = string.Empty;
 

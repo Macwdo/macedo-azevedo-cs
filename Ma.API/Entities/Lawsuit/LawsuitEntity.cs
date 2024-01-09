@@ -22,19 +22,19 @@ public class LawsuitEntity: BaseEntity
 
     [ForeignKey("ResponsibleLawyerId"), Required]
     public int ResponsibleLawyerId { get; set; }
-    public required LawyerEntity ResponsibleLawyer { get; set; }
+    public virtual required LawyerEntity ResponsibleLawyer { get; set; }
 
     [ForeignKey("AdversePartId"), Required]
     public int AdversePartId { get; set; }
-    public required RegistryEntity AdversePart {get; set; }
+    public virtual required RegistryEntity AdversePart {get; set; }
 
     [ForeignKey("ClientId"), Required]
     public int ClientId { get; set; }
-    public RegistryEntity Client {get; set; }
+    public virtual RegistryEntity Client {get; set; }
 
     [ForeignKey("IndicatedById")]
     public int? IndicatedById { get; set; }
-    public RegistryEntity? IndicatedBy { get; set; }
+    public virtual RegistryEntity? IndicatedBy { get; set; }
 
     public DateTime? InitialDate { get; set; }
     public DateTime? FinalDate { get; set; }

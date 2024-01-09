@@ -9,5 +9,5 @@ public class LawsuitFilesEntity: BaseEntity
 
     [ForeignKey("LawsuitId")]
     public int LawsuitId { get; set; }
-    public required LawsuitEntity LawsuitEntity { get; set; }
+    public virtual required LawsuitEntity LawsuitEntity { get; set; }
 }

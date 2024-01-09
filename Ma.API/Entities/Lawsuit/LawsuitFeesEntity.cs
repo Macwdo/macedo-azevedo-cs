@@ -10,11 +10,11 @@ public class LawsuitFeesEntity: BaseEntity
 
     [ForeignKey("LawsuitId")]
     public int LawsuitId { get; set; }
-    public required LawsuitEntity LawsuitEntity { get; set; }
+    public virtual required LawsuitEntity LawsuitEntity { get; set; }
 
     [ForeignKey("LawyerId")]
     public int LawyerId { get; set; }
-    public required LawyerEntity LawyerEntity { get; set; }
+    public virtual required LawyerEntity LawyerEntity { get; set; }
 
 
 

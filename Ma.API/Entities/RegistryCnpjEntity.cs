@@ -5,7 +5,7 @@ namespace Ma.API.Entities;
 public class RegistryCnpjEntity
 {
 
-    public required RegistryEntity Registry { get; set; }
+    public virtual required RegistryEntity Registry { get; set; }
 
     [Key, Required]
     public int RegistryId { get; set; }

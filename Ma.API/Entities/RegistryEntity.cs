@@ -15,5 +15,5 @@ public class RegistryEntity: BaseEntity
 
     [ForeignKey("LawyerResponsibleId")]
     public int? LawyerResponsibleId { get; set; }
-    public LawyerEntity? LawyerResponsible { get; set; }
+    public virtual LawyerEntity? LawyerResponsible { get; set; }
 }

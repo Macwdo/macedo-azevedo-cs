@@ -25,8 +25,8 @@ public class ReadRegistryDto
     [JsonPropertyName("image")]
     public Uri? Image { get; set; }
 
-    [JsonProperty("lawyer_responsible")]
-    [JsonPropertyName("lawyer_responsible")]
+    [JsonProperty("responsible_lawyer")]
+    [JsonPropertyName("responsible_lawyer")]
     public ReadLawyerDto? LawyerResponsible { get; set; }
 
     [JsonProperty("created_at")]

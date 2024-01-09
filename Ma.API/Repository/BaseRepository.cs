@@ -52,6 +52,18 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : clas
             .Take(take)
             .ToList();
     }
+
+    public IEnumerable<TEntity> GetAllPaginated(int skip, int take)
+    {
+        skip = skip == 0 ? 1 : skip;
+        return _context.Set<TEntity>()
+            .AsEnumerable()
+            .OrderByDescending(x => x.GetType().GetProperty("Id")?.GetValue(x))
+            .Skip((skip - 1) * take)
+            .Take(take)
+            .ToList();
+    }
+
     public TEntity? Get(int id)
     {
         return _context.Set<TEntity>().Find(id);
