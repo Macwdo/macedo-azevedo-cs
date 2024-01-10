@@ -1,10 +1,10 @@
 using Ma.API.Data;
-using Ma.API.Exceptions;
+using Ma.API.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ma.API.Repository;
 
-public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
+public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
 {
 
     private readonly ApplicationDbContext _dbContext;
@@ -58,7 +58,7 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : clas
         skip = skip == 0 ? 1 : skip;
         return _dbContext.Set<TEntity>()
             .AsEnumerable()
-            .OrderByDescending(x => x.GetType().GetProperty("Id")?.GetValue(x))
+            .OrderByDescending(x => x.Id)
             .Skip((skip - 1) * take)
             .Take(take)
             .ToList();

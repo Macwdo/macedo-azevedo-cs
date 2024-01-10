@@ -1,6 +1,8 @@
 **/appsettings.Development.json
 .idea/
 Ma.API/logs
+coverage/
+coverage.html
 
 ###################
 # compiled source #

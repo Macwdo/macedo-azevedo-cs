@@ -1,3 +1,4 @@
+using Ma.API.Entities;
 using Ma.API.Exceptions;
 using Ma.API.Models;
 using Ma.API.Services;
@@ -7,7 +8,7 @@ namespace Ma.API.Controllers;
 
 // TODO: Test and add authorization
 public class GenericCrudControlller<TEntity, TCreateDto, TReadDto, TUpdateDto> : ControllerBase
-    where TEntity : class
+    where TEntity : BaseEntity
     where TCreateDto : class
     where TReadDto : class
     where TUpdateDto : class
@@ -23,7 +24,7 @@ public class GenericCrudControlller<TEntity, TCreateDto, TReadDto, TUpdateDto> :
     public IActionResult GetAll(int skip=0, int take=10)
     {
         var entitiesDto = Service.GetAllPaginated(skip, take).ToList();
-        var paginationModel = new PaginationModel<TReadDto>(entitiesDto, skip, take, entitiesDto.Count());
+        var paginationModel = new PaginationModel<TReadDto>(entitiesDto, skip, take, entitiesDto.Count);
         return Ok(paginationModel);
     }
     
