@@ -9,7 +9,7 @@ public class CreateRegistryDto
     [Required, MinLength(3), MaxLength(100)]
     public string Name { get; set; }
 
-    [Required, EmailAddress, MaxLength(100)]
+    [EmailAddress, MaxLength(100)]
     public string? Email { get; set; }
 
     public Uri? Image { get; set; }

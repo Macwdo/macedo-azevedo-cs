@@ -1,29 +1,28 @@
 using System.Net;
 using FluentAssertions;
-using Ma.API;
+using Ma.Api.Test.Fixtures;
 using Ma.Api.Test.Helpers;
-using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Ma.Api.Test.System.IntegrationTests.Controllers;
 
-public class TestControllerRoutes
+public class TestControllerRoutes: IClassFixture<WebApplicationFixture>
 {
 
-    private readonly WebApplicationFactory<Program> _factory;
+    private readonly WebApplicationFixture _factory;
 
-    public TestControllerRoutes()
+    public TestControllerRoutes(WebApplicationFixture factory)
     {
-        _factory = WebApplicationFactoryHelper.GetFactory();
+        _factory = factory;
     }
 
     [Theory]
-    [InlineData("/api/v1/registries")]
-    [InlineData("/api/v1/lawsuits")]
-    [InlineData("/api/v1/lawyers")]
-    public async Task WhenGetAll_ThenReturnsOk(string route)
+    [InlineData(EndpointsHelper.RegistriesEndpoint)]
+    [InlineData(EndpointsHelper.LawyersEndpoint)]
+    [InlineData(EndpointsHelper.LawsuitsEndpoint)]
+    public async Task TestGetAll_WhenSuccess_ThenReturnsOk(string route)
     {
         // Arrange
-        var client = _factory.CreateClient();
+        var client = _factory.Client;
         // Act
         var response = await client.GetAsync(route);
         // Assert

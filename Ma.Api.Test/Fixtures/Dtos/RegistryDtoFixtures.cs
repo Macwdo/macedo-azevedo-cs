@@ -6,6 +6,18 @@ namespace Ma.Api.Test.Fixtures.Dtos;
 public static class RegistryDtoFixtures
 {
 
+    public static CreateRegistryDto CreateRegistryDtoFixture(
+        string name = "Test Registry Name",
+        string email = "registry.email@mail.com",
+        Uri? image = null,
+        int lawyerId = 1
+    ) => new CreateRegistryDto(
+            name,
+            email,
+            image,
+            lawyerId
+    );
+
     public static ReadRegistryDto ReadRegistryDtoFixture(int id, ReadLawyerDto? lawyer = null) => new ReadRegistryDto(
         id,
         $"Test Registry Name",
