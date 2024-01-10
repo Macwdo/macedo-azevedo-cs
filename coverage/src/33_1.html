@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>/home/macwdo/Work/MacedoAzevedo/Macedo-azevedo-cs/Ma.API/Migrations/20240105172319_cshanges.Designer.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+// &lt;auto-generated /&gt;
+using System;
+using Ma.API.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+
+#nullable disable
+
+namespace Ma.API.Migrations
+{
+    [DbContext(typeof(ApplicationContext))]
+    [Migration(&quot;20240105172319_cshanges&quot;)]
+    partial class cshanges
+    {
+        /// &lt;inheritdoc /&gt;
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        {
+#pragma warning disable 612, 618
+            modelBuilder
+                .HasAnnotation(&quot;ProductVersion&quot;, &quot;7.0.14&quot;)
+                .HasAnnotation(&quot;Relational:MaxIdentifierLength&quot;, 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity(&quot;Ma.API.Entities.Lawsuit.Lawsuit&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;int&gt;(&quot;AdversePartId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;int&gt;(&quot;ClientId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;DateTime&gt;(&quot;CreatedAt&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.Property&lt;DateTime?&gt;(&quot;FinalDate&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.Property&lt;int?&gt;(&quot;IndicatedById&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;DateTime?&gt;(&quot;InitialDate&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.Property&lt;int&gt;(&quot;LawsuitClientPosition&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;string&gt;(&quot;LawsuitCode&quot;)
+                        .IsRequired()
+                        .HasColumnType(&quot;text&quot;);
+
+                    b.Property&lt;int&gt;(&quot;LawsuitType&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Observation&quot;)
+                        .IsRequired()
+                        .HasColumnType(&quot;text&quot;);
+
+                    b.Property&lt;int&gt;(&quot;ResponsibleLawyerId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Subject&quot;)
+                        .IsRequired()
+                        .HasColumnType(&quot;text&quot;);
+
+                    b.Property&lt;DateTime&gt;(&quot;UpdatedAt&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.HasIndex(&quot;AdversePartId&quot;);
+
+                    b.HasIndex(&quot;ClientId&quot;);
+
+                    b.HasIndex(&quot;IndicatedById&quot;);
+
+                    b.HasIndex(&quot;ResponsibleLawyerId&quot;);
+
+                    b.ToTable(&quot;Lawsuits&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Ma.API.Entities.Lawsuit.LawsuitFees&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;DateTime&gt;(&quot;CreatedAt&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.Property&lt;bool&gt;(&quot;IsGain&quot;)
+                        .HasColumnType(&quot;boolean&quot;);
+
+                    b.Property&lt;int&gt;(&quot;LawsuitId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;int&gt;(&quot;LawyerId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Referent&quot;)
+                        .IsRequired()
+                        .HasColumnType(&quot;text&quot;);
+
+                    b.Property&lt;DateTime&gt;(&quot;UpdatedAt&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.Property&lt;double&gt;(&quot;Value&quot;)
+                        .HasColumnType(&quot;double precision&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.HasIndex(&quot;LawsuitId&quot;);
+
+                    b.HasIndex(&quot;LawyerId&quot;);
+
+                    b.ToTable(&quot;LawsuitFees&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Ma.API.Entities.Lawsuit.LawsuitFiles&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;DateTime&gt;(&quot;CreatedAt&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.Property&lt;string&gt;(&quot;FileName&quot;)
+                        .IsRequired()
+                        .HasColumnType(&quot;text&quot;);
+
+                    b.Property&lt;string&gt;(&quot;FileUrl&quot;)
+                        .IsRequired()
+                        .HasColumnType(&quot;text&quot;);
+
+                    b.Property&lt;int&gt;(&quot;LawsuitId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;DateTime&gt;(&quot;UpdatedAt&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.HasIndex(&quot;LawsuitId&quot;);
+
+                    b.ToTable(&quot;LawsuitFiles&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Ma.API.Entities.Lawyer&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;string&gt;(&quot;Cpf&quot;)
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType(&quot;character varying(11)&quot;);
+
+                    b.Property&lt;DateTime&gt;(&quot;CreatedAt&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Email&quot;)
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType(&quot;character varying(100)&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Name&quot;)
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType(&quot;character varying(60)&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Oab&quot;)
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType(&quot;character varying(20)&quot;);
+
+                    b.Property&lt;DateTime&gt;(&quot;UpdatedAt&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.Property&lt;int?&gt;(&quot;UserId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.HasIndex(&quot;UserId&quot;);
+
+                    b.ToTable(&quot;Lawyers&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Ma.API.Entities.Registry&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;DateTime&gt;(&quot;CreatedAt&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Email&quot;)
+                        .HasMaxLength(100)
+                        .HasColumnType(&quot;character varying(100)&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Image&quot;)
+                        .HasColumnType(&quot;text&quot;);
+
+                    b.Property&lt;int?&gt;(&quot;LawyerResponsibleId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Name&quot;)
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType(&quot;character varying(100)&quot;);
+
+                    b.Property&lt;DateTime&gt;(&quot;UpdatedAt&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.HasIndex(&quot;LawyerResponsibleId&quot;);
+
+                    b.ToTable(&quot;Registries&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Ma.API.Entities.User&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;DateTime&gt;(&quot;CreatedAt&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Email&quot;)
+                        .IsRequired()
+                        .HasColumnType(&quot;text&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Name&quot;)
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType(&quot;character varying(40)&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Surname&quot;)
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType(&quot;character varying(40)&quot;);
+
+                    b.Property&lt;DateTime&gt;(&quot;UpdatedAt&quot;)
+                        .HasColumnType(&quot;timestamp with time zone&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.ToTable(&quot;Users&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Ma.API.Entities.Lawsuit.Lawsuit&quot;, b =&gt;
+                {
+                    b.HasOne(&quot;Ma.API.Entities.Registry&quot;, &quot;AdversePart&quot;)
+                        .WithMany()
+                        .HasForeignKey(&quot;AdversePartId&quot;)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne(&quot;Ma.API.Entities.Registry&quot;, &quot;Client&quot;)
+                        .WithMany()
+                        .HasForeignKey(&quot;ClientId&quot;)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne(&quot;Ma.API.Entities.Registry&quot;, &quot;IndicatedBy&quot;)
+                        .WithMany()
+                        .HasForeignKey(&quot;IndicatedById&quot;);
+
+                    b.HasOne(&quot;Ma.API.Entities.Lawyer&quot;, &quot;ResponsibleLawyer&quot;)
+                        .WithMany()
+                        .HasForeignKey(&quot;ResponsibleLawyerId&quot;)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation(&quot;AdversePart&quot;);
+
+                    b.Navigation(&quot;Client&quot;);
+
+                    b.Navigation(&quot;IndicatedBy&quot;);
+
+                    b.Navigation(&quot;ResponsibleLawyer&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Ma.API.Entities.Lawsuit.LawsuitFees&quot;, b =&gt;
+                {
+                    b.HasOne(&quot;Ma.API.Entities.Lawsuit.Lawsuit&quot;, &quot;Lawsuit&quot;)
+                        .WithMany()
+                        .HasForeignKey(&quot;LawsuitId&quot;)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne(&quot;Ma.API.Entities.Lawyer&quot;, &quot;Lawyer&quot;)
+                        .WithMany()
+                        .HasForeignKey(&quot;LawyerId&quot;)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation(&quot;Lawsuit&quot;);
+
+                    b.Navigation(&quot;Lawyer&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Ma.API.Entities.Lawsuit.LawsuitFiles&quot;, b =&gt;
+                {
+                    b.HasOne(&quot;Ma.API.Entities.Lawsuit.Lawsuit&quot;, &quot;Lawsuit&quot;)
+                        .WithMany()
+                        .HasForeignKey(&quot;LawsuitId&quot;)
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation(&quot;Lawsuit&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Ma.API.Entities.Lawyer&quot;, b =&gt;
+                {
+                    b.HasOne(&quot;Ma.API.Entities.User&quot;, &quot;User&quot;)
+                        .WithMany()
+                        .HasForeignKey(&quot;UserId&quot;);
+
+                    b.Navigation(&quot;User&quot;);
+                });
+
+            modelBuilder.Entity(&quot;Ma.API.Entities.Registry&quot;, b =&gt;
+                {
+                    b.HasOne(&quot;Ma.API.Entities.Lawyer&quot;, &quot;LawyerResponsible&quot;)
+                        .WithMany()
+                        .HasForeignKey(&quot;LawyerResponsibleId&quot;);
+
+                    b.Navigation(&quot;LawyerResponsible&quot;);
+                });
+#pragma warning restore 612, 618
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[20,9,20,10,0],[22,13,24,70,0],[26,13,26,84,0],[28,13,29,17,0],[29,17,29,18,0],[29,18,30,21,0],[30,21,32,51,0],[32,51,34,21,0],[34,21,34,103,0],[34,103,36,21,0],[36,21,37,51,0],[37,51,39,21,0],[39,21,40,51,0],[40,51,42,21,0],[42,21,43,68,0],[43,68,45,21,0],[45,21,46,68,0],[46,68,48,21,0],[48,21,49,51,0],[49,51,51,21,0],[51,21,52,68,0],[52,68,54,21,0],[54,21,55,51,0],[55,51,57,21,0],[57,21,59,48,0],[59,48,61,21,0],[61,21,62,51,0],[62,51,64,21,0],[64,21,66,48,0],[66,48,68,21,0],[68,21,69,51,0],[69,51,71,21,0],[71,21,73,48,0],[73,48,75,21,0],[75,21,76,68,0],[76,68,78,21,0],[78,21,78,36,0],[78,36,80,21,0],[80,21,80,49,0],[80,49,82,21,0],[82,21,82,44,0],[82,44,84,21,0],[84,21,84,49,0],[84,49,86,21,0],[86,21,86,55,0],[86,55,88,21,0],[88,21,88,43,0],[88,43,89,17,0],[89,17,89,18,0],[89,18,89,20,0],[91,13,92,17,0],[92,17,92,18,0],[92,18,93,21,0],[93,21,95,51,0],[95,51,97,21,0],[97,21,97,103,0],[97,103,99,21,0],[99,21,100,68,0],[100,68,102,21,0],[102,21,103,51,0],[103,51,105,21,0],[105,21,106,51,0],[106,51,108,21,0],[108,21,109,51,0],[109,51,111,21,0],[111,21,113,48,0],[113,48,115,21,0],[115,21,116,68,0],[116,68,118,21,0],[118,21,119,60,0],[119,60,121,21,0],[121,21,121,36,0],[121,36,123,21,0],[123,21,123,45,0],[123,45,125,21,0],[125,21,125,44,0],[125,44,127,21,0],[127,21,127,46,0],[127,46,128,17,0],[128,17,128,18,0],[128,18,128,20,0],[130,13,131,17,0],[131,17,131,18,0],[131,18,132,21,0],[132,21,134,51,0],[134,51,136,21,0],[136,21,136,103,0],[136,103,138,21,0],[138,21,139,68,0],[139,68,141,21,0],[141,21,143,48,0],[143,48,145,21,0],[145,21,147,48,0],[147,48,149,21,0],[149,21,150,51,0],[150,51,152,21,0],[152,21,153,68,0],[153,68,155,21,0],[155,21,155,36,0],[155,36,157,21,0],[157,21,157,45,0],[157,45,159,21,0],[159,21,159,47,0],[159,47,160,17,0],[160,17,160,18,0],[160,18,160,20,0],[162,13,163,17,0],[163,17,163,18,0],[163,18,164,21,0],[164,21,166,51,0],[166,51,168,21,0],[168,21,168,103,0],[168,103,170,21,0],[170,21,173,65,0],[173,65,175,21,0],[175,21,176,68,0],[176,68,178,21,0],[178,21,181,66,0],[181,66,183,21,0],[183,21,186,65,0],[186,65,188,21,0],[188,21,191,65,0],[191,65,193,21,0],[193,21,194,68,0],[194,68,196,21,0],[196,21,197,51,0],[197,51,199,21,0],[199,21,199,36,0],[199,36,201,21,0],[201,21,201,42,0],[201,42,203,21,0],[203,21,203,42,0],[203,42,204,17,0],[204,17,204,18,0],[204,18,204,20,0],[206,13,207,17,0],[207,17,207,18,0],[207,18,208,21,0],[208,21,210,51,0],[210,51,212,21,0],[212,21,212,103,0],[212,103,214,21,0],[214,21,215,68,0],[215,68,217,21,0],[217,21,219,66,0],[219,66,221,21,0],[221,21,222,48,0],[222,48,224,21,0],[224,21,225,51,0],[225,51,227,21,0],[227,21,230,66,0],[230,66,232,21,0],[232,21,233,68,0],[233,68,235,21,0],[235,21,235,36,0],[235,36,237,21,0],[237,21,237,55,0],[237,55,239,21,0],[239,21,239,45,0],[239,45,240,17,0],[240,17,240,18,0],[240,18,240,20,0],[242,13,243,17,0],[243,17,243,18,0],[243,18,244,21,0],[244,21,246,51,0],[246,51,248,21,0],[248,21,248,103,0],[248,103,250,21,0],[250,21,251,68,0],[251,68,253,21,0],[253,21,255,48,0],[255,48,257,21,0],[257,21,260,65,0],[260,65,262,21,0],[262,21,265,65,0],[265,65,267,21,0],[267,21,268,68,0],[268,68,270,21,0],[270,21,270,36,0],[270,36,272,21,0],[272,21,272,40,0],[272,40,273,17,0],[273,17,273,18,0],[273,18,273,20,0],[275,13,276,17,0],[276,17,276,18,0],[276,18,277,21,0],[277,21,281,39,0],[281,39,283,21,0],[283,21,287,39,0],[287,39,289,21,0],[289,21,291,57,0],[291,57,293,21,0],[293,21,297,39,0],[297,39,299,21,0],[299,21,299,49,0],[299,49,301,21,0],[301,21,301,44,0],[301,44,303,21,0],[303,21,303,49,0],[303,49,305,21,0],[305,21,305,55,0],[305,55,306,17,0],[306,17,306,18,0],[306,18,306,20,0],[308,13,309,17,0],[309,17,309,18,0],[309,18,310,21,0],[310,21,314,39,0],[314,39,316,21,0],[316,21,320,39,0],[320,39,322,21,0],[322,21,322,45,0],[322,45,324,21,0],[324,21,324,44,0],[324,44,325,17,0],[325,17,325,18,0],[325,18,325,20,0],[327,13,328,17,0],[328,17,328,18,0],[328,18,329,21,0],[329,21,333,39,0],[333,39,335,21,0],[335,21,335,45,0],[335,45,336,17,0],[336,17,336,18,0],[336,18,336,20,0],[338,13,339,17,0],[339,17,339,18,0],[339,18,340,21,0],[340,21,342,50,0],[342,50,344,21,0],[344,21,344,42,0],[344,42,345,17,0],[345,17,345,18,0],[345,18,345,20,0],[347,13,348,17,0],[348,17,348,18,0],[348,18,349,21,0],[349,21,351,63,0],[351,63,353,21,0],[353,21,353,55,0],[353,55,354,17,0],[354,17,354,18,0],[354,18,354,20,0],[356,9,356,10,0]]);
+    </script>
+  </body>
+</html>

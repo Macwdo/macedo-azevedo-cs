@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>/home/macwdo/Work/MacedoAzevedo/Macedo-azevedo-cs/Ma.Api.Test/System/UnitTests/Controllers/RegistryControllerTest.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using FluentAssertions;
+using Ma.API.Controllers.V1.Registry;
+using Ma.API.Models.Registry;
+using Ma.API.Services;
+using Ma.Api.Test.Fixtures.Dtos;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+
+namespace Ma.Api.Test.System.UnitTests.Controllers;
+
+public class RegistryControllerTest
+{
+
+    public RegistryControllerTest()
+    {
+    }
+
+
+    [Fact]
+    public void GetAll_OnSuccess_ReturnsSuccessBody() {
+        // Arrange
+        var fixture = RegistryDtoFixtures.ReadRegistriesDtoFixture(10);
+        var mockedService = new Mock&lt;IRegistryService&gt;();
+        mockedService
+            .Setup(s =&gt; s.GetRegistries())
+            .Returns(fixture)
+        ;
+
+        var controller = new RegistryController(mockedService.Object);
+        // Act
+        var controllerResult = (OkObjectResult)controller.GetAll();
+
+        // Assert
+        controllerResult.Value.Should().Be(fixture);
+    }
+
+    [Fact]
+    public void GetAll_OnSuccess_Returns200()
+    {
+        // Arrange
+        var readRegistriesDtoFixture = RegistryDtoFixtures.ReadRegistriesDtoFixture(2, false);
+
+        var mockedService = new Mock&lt;IRegistryService&gt;();
+        mockedService
+            .Setup(s =&gt; s.GetRegistries())
+            .Returns(readRegistriesDtoFixture);
+
+        var controller = new RegistryController(mockedService.Object);
+
+        // Act
+        var controllerResult = (OkObjectResult)controller.GetAll();
+
+        // Assert
+        controllerResult.StatusCode.Should().Be(200);
+
+    }
+
+    [Fact]
+    public void Get_OnSuccess_Returns200()
+    {
+        // Arrange
+        var readRegistryDtoFixture = RegistryDtoFixtures.ReadRegistryDtoFixture(1);
+
+        var mockedService = new Mock&lt;IRegistryService&gt;();
+        mockedService
+            .Setup(s =&gt; s.GetRegistry(1))
+            .Returns(readRegistryDtoFixture);
+
+        var controller = new RegistryController(mockedService.Object);
+        // Act
+        var controllerResult = (OkObjectResult)controller.Get(1);
+
+        // Assert
+        controllerResult.StatusCode.Should().Be(200);
+
+    }
+
+    [Fact]
+    public void Get_WhenNotFound_Returns404()
+    {
+        // Arrange
+
+        ReadRegistryDto? readRegistryDto = null;
+        var mockedService = new Mock&lt;IRegistryService&gt;();
+        mockedService
+            .Setup(s =&gt; s.GetRegistry(1))
+            .Returns(readRegistryDto);
+
+        var controller = new RegistryController(mockedService.Object);
+        // Act
+        var controllerResult = (NotFoundResult)controller.Get(1);
+
+        // Assert
+        controllerResult.StatusCode.Should().Be(404);
+
+    }
+
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,5,14,36,0],[15,5,15,6,0],[16,5,16,6,0],[20,55,20,56,0],[22,9,22,72,0],[23,9,23,58,0],[24,9,27,10,0],[29,9,29,71,0],[31,9,31,68,0],[34,9,34,53,0],[35,5,35,6,0],[39,5,39,6,0],[41,9,41,95,0],[43,9,43,58,0],[44,9,46,48,0],[48,9,48,71,0],[51,9,51,68,0],[54,9,54,54,0],[56,5,56,6,0],[60,5,60,6,0],[62,9,62,84,0],[64,9,64,58,0],[65,9,67,46,0],[69,9,69,71,0],[71,9,71,66,0],[74,9,74,54,0],[76,5,76,6,0],[80,5,80,6,0],[83,9,83,49,0],[84,9,84,58,0],[85,9,87,39,0],[89,9,89,71,0],[91,9,91,66,0],[94,9,94,54,0],[96,5,96,6,0]]);
+    </script>
+  </body>
+</html>

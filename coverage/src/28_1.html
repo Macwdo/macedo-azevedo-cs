@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>/home/macwdo/Work/MacedoAzevedo/Macedo-azevedo-cs/Ma.API/Migrations/20231215055317_initi.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+
+#nullable disable
+
+namespace Ma.API.Migrations
+{
+    /// &lt;inheritdoc /&gt;
+    public partial class initi : Migration
+    {
+        /// &lt;inheritdoc /&gt;
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: &quot;Users&quot;,
+                columns: table =&gt; new
+                {
+                    Id = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false)
+                        .Annotation(&quot;Npgsql:ValueGenerationStrategy&quot;, NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: false),
+                    Surname = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: false),
+                    BirthDate = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: false),
+                    CreatedAt = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: false),
+                    UpdatedAt = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: false)
+                },
+                constraints: table =&gt;
+                {
+                    table.PrimaryKey(&quot;PK_Users&quot;, x =&gt; x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: &quot;Lawyers&quot;,
+                columns: table =&gt; new
+                {
+                    Id = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false)
+                        .Annotation(&quot;Npgsql:ValueGenerationStrategy&quot;, NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: false),
+                    Email = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: false),
+                    Cpf = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: false),
+                    UserId = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: true),
+                    Oab = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: false),
+                    CreatedAt = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: false),
+                    UpdatedAt = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: false)
+                },
+                constraints: table =&gt;
+                {
+                    table.PrimaryKey(&quot;PK_Lawyers&quot;, x =&gt; x.Id);
+                    table.ForeignKey(
+                        name: &quot;FK_Lawyers_Users_UserId&quot;,
+                        column: x =&gt; x.UserId,
+                        principalTable: &quot;Users&quot;,
+                        principalColumn: &quot;Id&quot;);
+                });
+
+            migrationBuilder.CreateTable(
+                name: &quot;Registries&quot;,
+                columns: table =&gt; new
+                {
+                    Id = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false)
+                        .Annotation(&quot;Npgsql:ValueGenerationStrategy&quot;, NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: false),
+                    Email = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: true),
+                    Image = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: true),
+                    LawyerResponsibleId = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: true),
+                    CreatedAt = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: false),
+                    UpdatedAt = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: false)
+                },
+                constraints: table =&gt;
+                {
+                    table.PrimaryKey(&quot;PK_Registries&quot;, x =&gt; x.Id);
+                    table.ForeignKey(
+                        name: &quot;FK_Registries_Lawyers_LawyerResponsibleId&quot;,
+                        column: x =&gt; x.LawyerResponsibleId,
+                        principalTable: &quot;Lawyers&quot;,
+                        principalColumn: &quot;Id&quot;);
+                });
+
+            migrationBuilder.CreateTable(
+                name: &quot;Lawsuits&quot;,
+                columns: table =&gt; new
+                {
+                    Id = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false)
+                        .Annotation(&quot;Npgsql:ValueGenerationStrategy&quot;, NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    LawsuitCode = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: false),
+                    Subject = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: false),
+                    Observation = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: false),
+                    LawsuitClientPosition = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false),
+                    LawsuitType = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false),
+                    ResponsibleLawyerId = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false),
+                    AdversePartId = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false),
+                    ClientId = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false),
+                    IndicatedById = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: true),
+                    InitialDate = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: true),
+                    FinalDate = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: true),
+                    CreatedAt = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: false),
+                    UpdatedAt = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: false)
+                },
+                constraints: table =&gt;
+                {
+                    table.PrimaryKey(&quot;PK_Lawsuits&quot;, x =&gt; x.Id);
+                    table.ForeignKey(
+                        name: &quot;FK_Lawsuits_Lawyers_ResponsibleLawyerId&quot;,
+                        column: x =&gt; x.ResponsibleLawyerId,
+                        principalTable: &quot;Lawyers&quot;,
+                        principalColumn: &quot;Id&quot;,
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: &quot;FK_Lawsuits_Registries_AdversePartId&quot;,
+                        column: x =&gt; x.AdversePartId,
+                        principalTable: &quot;Registries&quot;,
+                        principalColumn: &quot;Id&quot;,
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: &quot;FK_Lawsuits_Registries_ClientId&quot;,
+                        column: x =&gt; x.ClientId,
+                        principalTable: &quot;Registries&quot;,
+                        principalColumn: &quot;Id&quot;,
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: &quot;FK_Lawsuits_Registries_IndicatedById&quot;,
+                        column: x =&gt; x.IndicatedById,
+                        principalTable: &quot;Registries&quot;,
+                        principalColumn: &quot;Id&quot;);
+                });
+
+            migrationBuilder.CreateTable(
+                name: &quot;LawsuitFees&quot;,
+                columns: table =&gt; new
+                {
+                    Id = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false)
+                        .Annotation(&quot;Npgsql:ValueGenerationStrategy&quot;, NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Referent = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: false),
+                    Value = table.Column&lt;double&gt;(type: &quot;double precision&quot;, nullable: false),
+                    IsGain = table.Column&lt;bool&gt;(type: &quot;boolean&quot;, nullable: false),
+                    LawsuitId = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false),
+                    LawyerId = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false),
+                    CreatedAt = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: false),
+                    UpdatedAt = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: false)
+                },
+                constraints: table =&gt;
+                {
+                    table.PrimaryKey(&quot;PK_LawsuitFees&quot;, x =&gt; x.Id);
+                    table.ForeignKey(
+                        name: &quot;FK_LawsuitFees_Lawsuits_LawsuitId&quot;,
+                        column: x =&gt; x.LawsuitId,
+                        principalTable: &quot;Lawsuits&quot;,
+                        principalColumn: &quot;Id&quot;,
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: &quot;FK_LawsuitFees_Lawyers_LawyerId&quot;,
+                        column: x =&gt; x.LawyerId,
+                        principalTable: &quot;Lawyers&quot;,
+                        principalColumn: &quot;Id&quot;,
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: &quot;LawsuitFiles&quot;,
+                columns: table =&gt; new
+                {
+                    Id = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false)
+                        .Annotation(&quot;Npgsql:ValueGenerationStrategy&quot;, NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FileName = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: false),
+                    FileUrl = table.Column&lt;string&gt;(type: &quot;text&quot;, nullable: false),
+                    LawsuitId = table.Column&lt;int&gt;(type: &quot;integer&quot;, nullable: false),
+                    CreatedAt = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: false),
+                    UpdatedAt = table.Column&lt;DateTime&gt;(type: &quot;timestamp with time zone&quot;, nullable: false)
+                },
+                constraints: table =&gt;
+                {
+                    table.PrimaryKey(&quot;PK_LawsuitFiles&quot;, x =&gt; x.Id);
+                    table.ForeignKey(
+                        name: &quot;FK_LawsuitFiles_Lawsuits_LawsuitId&quot;,
+                        column: x =&gt; x.LawsuitId,
+                        principalTable: &quot;Lawsuits&quot;,
+                        principalColumn: &quot;Id&quot;,
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: &quot;IX_LawsuitFees_LawsuitId&quot;,
+                table: &quot;LawsuitFees&quot;,
+                column: &quot;LawsuitId&quot;);
+
+            migrationBuilder.CreateIndex(
+                name: &quot;IX_LawsuitFees_LawyerId&quot;,
+                table: &quot;LawsuitFees&quot;,
+                column: &quot;LawyerId&quot;);
+
+            migrationBuilder.CreateIndex(
+                name: &quot;IX_LawsuitFiles_LawsuitId&quot;,
+                table: &quot;LawsuitFiles&quot;,
+                column: &quot;LawsuitId&quot;);
+
+            migrationBuilder.CreateIndex(
+                name: &quot;IX_Lawsuits_AdversePartId&quot;,
+                table: &quot;Lawsuits&quot;,
+                column: &quot;AdversePartId&quot;);
+
+            migrationBuilder.CreateIndex(
+                name: &quot;IX_Lawsuits_ClientId&quot;,
+                table: &quot;Lawsuits&quot;,
+                column: &quot;ClientId&quot;);
+
+            migrationBuilder.CreateIndex(
+                name: &quot;IX_Lawsuits_IndicatedById&quot;,
+                table: &quot;Lawsuits&quot;,
+                column: &quot;IndicatedById&quot;);
+
+            migrationBuilder.CreateIndex(
+                name: &quot;IX_Lawsuits_ResponsibleLawyerId&quot;,
+                table: &quot;Lawsuits&quot;,
+                column: &quot;ResponsibleLawyerId&quot;);
+
+            migrationBuilder.CreateIndex(
+                name: &quot;IX_Lawyers_UserId&quot;,
+                table: &quot;Lawyers&quot;,
+                column: &quot;UserId&quot;);
+
+            migrationBuilder.CreateIndex(
+                name: &quot;IX_Registries_LawyerResponsibleId&quot;,
+                table: &quot;Registries&quot;,
+                column: &quot;LawyerResponsibleId&quot;);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: &quot;LawsuitFees&quot;);
+
+            migrationBuilder.DropTable(
+                name: &quot;LawsuitFiles&quot;);
+
+            migrationBuilder.DropTable(
+                name: &quot;Lawsuits&quot;);
+
+            migrationBuilder.DropTable(
+                name: &quot;Registries&quot;);
+
+            migrationBuilder.DropTable(
+                name: &quot;Lawyers&quot;);
+
+            migrationBuilder.DropTable(
+                name: &quot;Users&quot;);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,0],[15,13,17,35,0],[17,35,26,18,0],[26,18,28,17,0],[28,17,28,18,0],[28,18,29,21,0],[29,21,29,61,0],[29,61,30,17,0],[30,17,30,18,0],[30,18,30,20,0],[32,13,34,35,0],[34,35,45,18,0],[45,18,47,17,0],[47,17,47,18,0],[47,18,48,21,0],[48,21,48,63,0],[48,63,49,21,0],[49,21,53,48,0],[53,48,54,17,0],[54,17,54,18,0],[54,18,54,20,0],[56,13,58,35,0],[58,35,68,18,0],[68,18,70,17,0],[70,17,70,18,0],[70,18,71,21,0],[71,21,71,66,0],[71,66,72,21,0],[72,21,76,48,0],[76,48,77,17,0],[77,17,77,18,0],[77,18,77,20,0],[79,13,81,35,0],[81,35,98,18,0],[98,18,100,17,0],[100,17,100,18,0],[100,18,101,21,0],[101,21,101,64,0],[101,64,102,21,0],[102,21,107,62,0],[107,62,108,21,0],[108,21,113,62,0],[113,62,114,21,0],[114,21,119,62,0],[119,62,120,21,0],[120,21,124,48,0],[124,48,125,17,0],[125,17,125,18,0],[125,18,125,20,0],[127,13,129,35,0],[129,35,140,18,0],[140,18,142,17,0],[142,17,142,18,0],[142,18,143,21,0],[143,21,143,67,0],[143,67,144,21,0],[144,21,149,62,0],[149,62,150,21,0],[150,21,155,62,0],[155,62,156,17,0],[156,17,156,18,0],[156,18,156,20,0],[158,13,160,35,0],[160,35,169,18,0],[169,18,171,17,0],[171,17,171,18,0],[171,18,172,21,0],[172,21,172,68,0],[172,68,173,21,0],[173,21,178,62,0],[178,62,179,17,0],[179,17,179,18,0],[179,18,179,20,0],[181,13,184,38,0],[186,13,189,37,0],[191,13,194,38,0],[196,13,199,42,0],[201,13,204,37,0],[206,13,209,42,0],[211,13,214,48,0],[216,13,219,35,0],[221,13,224,48,0],[225,9,225,10,0],[229,9,229,10,0],[230,13,231,38,0],[233,13,234,39,0],[236,13,237,35,0],[239,13,240,37,0],[242,13,243,34,0],[245,13,246,32,0],[247,9,247,10,0]]);
+    </script>
+  </body>
+</html>

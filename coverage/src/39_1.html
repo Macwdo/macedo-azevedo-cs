@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>/home/macwdo/Work/MacedoAzevedo/Macedo-azevedo-cs/Ma.API/Models/Lawyer/UpdateLawyerDto.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.ComponentModel.DataAnnotations;
+using Ma.API.DTOs.User;
+using Ma.API.Validators;
+
+namespace Ma.API.Models.Lawyer;
+
+public record UpdateLawyerDto
+(
+    [MinLength(3), MaxLength(100)]
+    string Name,
+    [EmailAddress, MaxLength(100)]
+    string Email,
+    [Required, MaxLength(11)]
+    string Cpf,
+    [Required, MaxLength(20)]
+    string Oab,
+    [EntityExistsValidator&lt;Entities.User&gt;]
+    int? UserId
+);
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,5,10,16,0],[11,5,12,17,0],[13,5,14,15,0],[15,5,16,15,0],[17,5,18,16,0]]);
+    </script>
+  </body>
+</html>

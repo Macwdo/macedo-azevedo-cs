@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>/home/macwdo/Work/MacedoAzevedo/Macedo-azevedo-cs/Ma.API/Clients/ApiHelper.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Net;
+using System.Text.Json;
+using Ma.API.Exceptions;
+using Exception = System.Exception;
+
+namespace Ma.API.Clients;
+public class ApiHelper: IApiHelper
+{
+
+    private readonly HttpClient _httpClient;
+    private readonly ILogger&lt;ApiHelper&gt; _logger;
+    public ApiHelper(HttpClient httpClient, ILogger&lt;ApiHelper&gt; logger)
+    {
+        _httpClient = httpClient;
+        _logger = logger;
+    }
+
+    public async Task&lt;Response&lt;T?&gt;&gt; GetAsync&lt;T&gt;(string url)
+    {
+        var response = await _httpClient.GetAsync(url);
+
+        try
+        {
+            response.EnsureSuccessStatusCode();
+
+            var responseBodyJsonString = await response.Content.ReadAsStringAsync();
+            var responseBody = JsonSerializer.Deserialize&lt;T&gt;(responseBodyJsonString);
+            _logger.LogInformation(&quot;Response: {responseBody}&quot;, responseBodyJsonString);
+            return new Response&lt;T?&gt;()
+            {
+                StatusCode = response.StatusCode,
+                Content = responseBody
+            };
+        }
+        catch (HttpRequestException e)
+        {
+            _logger.LogError(e, &quot;Error trying to request {url}, StatusCode: {statusCode}&quot;, url, response.StatusCode);
+            throw new ClientErrorException($&quot;Error trying to request {url}, StatusCode: {response.StatusCode}&quot;);
+        }
+    }
+}
+
+public interface IApiHelper
+{
+    Task&lt;Response&lt;T?&gt;&gt; GetAsync&lt;T&gt;(string url);
+}
+
+
+public class Response&lt;T&gt;
+{
+    public HttpStatusCode StatusCode { get; set; }
+    public T? Content { get; set; }
+}
+
+public class ErrorResponse
+{
+    public string Message { get; set; } = string.Empty;
+    public int StatusCode { get; set; }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,5,12,71,0],[13,5,13,6,0],[14,9,14,34,0],[15,9,15,26,0],[16,5,16,6,0],[19,5,19,6,0],[20,9,20,56,0],[23,9,23,10,0],[24,13,24,48,0],[26,13,26,85,0],[27,13,27,86,0],[28,13,28,88,0],[29,13,33,15,0],[35,9,35,39,0],[36,9,36,10,0],[37,13,37,118,0],[38,13,38,113,0],[40,5,40,6,0],[51,40,51,44,0],[51,45,51,49,0],[52,25,52,29,0],[52,30,52,34,0],[57,29,57,33,0],[57,34,57,38,0],[57,43,57,55,0],[58,29,58,33,0],[58,34,58,38,0]]);
+    </script>
+  </body>
+</html>

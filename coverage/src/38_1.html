@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>/home/macwdo/Work/MacedoAzevedo/Macedo-azevedo-cs/Ma.API/Models/Lawyer/ReadLawyerDto.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Ma.API.DTOs.User;
+
+namespace Ma.API.Models.Lawyer;
+
+public record ReadLawyerDto(
+    int Id,
+    string Name,
+    string Email,
+    string Cpf,
+    string Oab,
+    ReadUserDto? User,
+    DateTime CreatedAt,
+    DateTime UpdatedAt
+    );
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[6,5,6,11,0],[7,5,7,16,0],[8,5,8,17,0],[9,5,9,15,0],[10,5,10,15,0],[11,5,11,22,0],[12,5,12,23,0],[13,5,13,23,0]]);
+    </script>
+  </body>
+</html>

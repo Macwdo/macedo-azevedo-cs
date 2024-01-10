@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>/home/macwdo/Work/MacedoAzevedo/Macedo-azevedo-cs/Ma.API/Data/ApplicationContext.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Ma.API.Entities;
+using Ma.API.Entities.Lawsuit;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace Ma.API.Data ;
+
+public class ApplicationContext: IdentityDbContext
+{
+    public ApplicationContext(DbContextOptions&lt;ApplicationContext&gt; options) : base(options)
+    {
+    }
+
+
+    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    {
+        AddTimeStamps();
+        return base.SaveChanges(acceptAllChangesOnSuccess);
+    }
+
+    public override Task&lt;int&gt; SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = new CancellationToken())
+    {
+        AddTimeStamps();
+        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+    }
+
+    private void AddTimeStamps()
+    {
+        var entities = ChangeTracker
+            .Entries()
+            .Where(
+                x =&gt; x is { Entity: BaseEntity, State: EntityState.Added or EntityState.Modified }
+            );
+
+        foreach (var entity in entities)
+        {
+            var now = DateTime.UtcNow;
+            if (entity.State == EntityState.Added)
+                ((BaseEntity)entity.Entity).CreatedAt = now;
+            ((BaseEntity)entity.Entity).UpdatedAt = now;
+        }
+
+    }
+
+    // TODO: Break this into multiple files
+    public DbSet&lt;Lawsuit&gt; Lawsuits =&gt; Set&lt;Lawsuit&gt;();
+    public DbSet&lt;LawsuitFees&gt; LawsuitFees =&gt; Set&lt;LawsuitFees&gt;();
+    public DbSet&lt;LawsuitFiles&gt; LawsuitFiles =&gt; Set&lt;LawsuitFiles&gt;();
+
+
+    public DbSet&lt;Registry&gt; Registries =&gt; Set&lt;Registry&gt;();
+    public DbSet&lt;Lawyer&gt; Lawyers =&gt; Set&lt;Lawyer&gt;();
+    public DbSet&lt;User&gt; Users =&gt; Set&lt;User&gt;();
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,79,10,92,0],[11,5,11,6,0],[12,5,12,6,0],[16,5,16,6,0],[17,9,17,25,0],[18,9,18,60,0],[19,5,19,6,0],[22,5,22,6,0],[23,9,23,25,0],[24,9,24,84,0],[25,5,25,6,0],[28,5,28,6,0],[29,9,32,22,0],[32,22,32,99,0],[32,99,33,15,0],[35,9,35,16,0],[35,18,35,28,0],[35,29,35,31,0],[35,32,35,40,0],[36,9,36,10,0],[37,13,37,39,0],[38,13,38,51,0],[39,17,39,61,0],[40,13,40,57,0],[41,9,41,10,0],[43,5,43,6,0],[46,39,46,53,0],[47,46,47,64,0],[48,48,48,67,0],[51,42,51,57,0],[52,37,52,50,0],[53,33,53,44,0]]);
+    </script>
+  </body>
+</html>

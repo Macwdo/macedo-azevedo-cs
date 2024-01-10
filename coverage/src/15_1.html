@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>/home/macwdo/Work/MacedoAzevedo/Macedo-azevedo-cs/Ma.API/Entities/RegistryCnpj.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.ComponentModel.DataAnnotations;
+
+namespace Ma.API.Entities;
+
+public class RegistryCnpj
+{
+
+    public required Registry Registry { get; set; }
+
+    [Key, Required]
+    public int RegistryId { get; set; }
+
+    [StringLength(100), Required]
+    public string Cnpj { get; set; } = string.Empty;
+
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[8,41,8,45,0],[8,46,8,50,0],[11,29,11,33,0],[11,34,11,38,0],[14,26,14,30,0],[14,31,14,35,0],[14,40,14,52,0]]);
+    </script>
+  </body>
+</html>

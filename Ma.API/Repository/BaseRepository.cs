@@ -7,44 +7,44 @@ namespace Ma.API.Repository;
 public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
 {
 
-    private readonly ApplicationContext _context;
-    public BaseRepository(ApplicationContext context)
+    private readonly ApplicationDbContext _dbContext;
+    public BaseRepository(ApplicationDbContext dbContext)
     {
-        _context = context;
+        _dbContext = dbContext;
     }
 
     public void Save(TEntity entity)
     {
-        _context.SaveChanges();
+        _dbContext.SaveChanges();
     }
 
     public IQueryable GetQueryable()
     {
-        return _context.Set<TEntity>().AsQueryable();
+        return _dbContext.Set<TEntity>().AsQueryable();
     }
 
     public TEntity Create(TEntity entity)
     {
-        _context.Set<TEntity>().Add(entity);
-        _context.SaveChanges();
+        _dbContext.Set<TEntity>().Add(entity);
+        _dbContext.SaveChanges();
         return entity;
 
     }
 
     public IEnumerable<TEntity> Get()
     {
-        return _context.Set<TEntity>().ToList();
+        return _dbContext.Set<TEntity>().ToList();
     }
 
     public IEnumerable<TEntity> GetAllReadOnly()
     {
-        return _context.Set<TEntity>().AsNoTracking().ToList();
+        return _dbContext.Set<TEntity>().AsNoTracking().ToList();
     }
 
     public IEnumerable<TEntity> GetAllReadOnlyPaginated(int skip, int take)
     {
         skip = skip == 0 ? 1 : skip;
-        return _context.Set<TEntity>()
+        return _dbContext.Set<TEntity>()
             .AsNoTracking()
             .AsEnumerable()
             .OrderBy(x => x.GetType().GetProperty("Id")?.GetValue(x))
@@ -56,7 +56,7 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : clas
     public IEnumerable<TEntity> GetAllPaginated(int skip, int take)
     {
         skip = skip == 0 ? 1 : skip;
-        return _context.Set<TEntity>()
+        return _dbContext.Set<TEntity>()
             .AsEnumerable()
             .OrderByDescending(x => x.GetType().GetProperty("Id")?.GetValue(x))
             .Skip((skip - 1) * take)
@@ -66,20 +66,20 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : clas
 
     public TEntity? Get(int id)
     {
-        return _context.Set<TEntity>().Find(id);
+        return _dbContext.Set<TEntity>().Find(id);
     }
 
     public TEntity Update(TEntity entity)
     {
-        _context.Set<TEntity>().Update(entity);
-        _context.SaveChanges();
+        _dbContext.Set<TEntity>().Update(entity);
+        _dbContext.SaveChanges();
         return entity;
     }
 
     public void Delete(TEntity entity)
     {
-            _context.Set<TEntity>().Remove(entity);
-            _context.SaveChanges();
+            _dbContext.Set<TEntity>().Remove(entity);
+            _dbContext.SaveChanges();
     }
 
     public Task<TEntity> CreateAsync(TEntity entity)

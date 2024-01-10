@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>/home/macwdo/Work/MacedoAzevedo/Macedo-azevedo-cs/Ma.API/Validators/Registry/CreateRegistryValidator.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using FluentValidation;
+using Ma.API.Models.Registry;
+
+namespace Ma.Api.Validators.Registry;
+
+public class CreateRegistryDtoValidator : AbstractValidator&lt;CreateRegistryDto&gt;
+{
+    public CreateRegistryDtoValidator()
+    {
+        RuleFor(x =&gt; x.Name)
+            .NotEmpty()
+            .MinimumLength(3)
+            .MaximumLength(100)
+            .WithMessage(&quot;Name must have between 3 and 100 characters&quot;)
+            ;
+        
+        RuleFor(x =&gt; x.Email)
+            .NotEmpty()
+            .EmailAddress()
+            .MaximumLength(100)
+            .WithMessage(&quot;Email must be a valid email address&quot;)
+            ;
+
+        RuleFor(x =&gt; x.Image)
+            .Must(x =&gt; x is null || Uri.IsWellFormedUriString(x.ToString(), UriKind.Absolute))
+            .WithMessage(&quot;Image must be a valid URI&quot;);
+    }
+}
+
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[8,5,8,40,0],[9,5,9,6,0],[10,9,15,14,0],[17,9,22,14,0],[24,9,25,24,0],[25,24,25,94,0],[25,94,26,55,0],[27,5,27,6,0]]);
+    </script>
+  </body>
+</html>

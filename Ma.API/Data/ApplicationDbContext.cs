@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ma.API.Data ;
 
-public class ApplicationContext: IdentityDbContext
+public class ApplicationDbContext: IdentityDbContext
 {
-    public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
 

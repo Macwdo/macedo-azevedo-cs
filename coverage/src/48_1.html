@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>/home/macwdo/Work/MacedoAzevedo/Macedo-azevedo-cs/Ma.API/Services/GenericCrudService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AutoMapper;
+using FluentValidation;
+using Ma.API.Exceptions;
+using Ma.API.Repository;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Ma.API.Services;
+
+// Todo: Test and use
+public class GenericCrudService&lt;TEntity, TCreateDto, TReadDto, TUpdateDto&gt; :
+    IGenericCrudService&lt;TEntity, TCreateDto, TReadDto, TUpdateDto&gt;
+    where TEntity : class
+    where TCreateDto : class
+    where TReadDto : class
+    where TUpdateDto : class
+{
+    private readonly IMapper _mapper;
+    private readonly ILogger&lt;GenericCrudService&lt;TEntity, TCreateDto, TReadDto, TUpdateDto&gt;&gt; _logger;
+
+    private readonly IValidator&lt;TCreateDto&gt; _createValidator;
+    private readonly IValidator&lt;TUpdateDto&gt; _updateValidator;
+    private readonly IRepository&lt;TEntity&gt; _repository;
+    
+    public GenericCrudService(IMapper mapper, IRepository&lt;TEntity&gt; repository, ILogger&lt;GenericCrudService&lt;TEntity, TCreateDto, TReadDto, TUpdateDto&gt;&gt; logger, IValidator&lt;TCreateDto&gt; createValidator, IValidator&lt;TUpdateDto&gt; updateValidator)
+    {
+        _mapper = mapper;
+        _repository = repository;
+        _logger = logger;
+        _createValidator = createValidator;
+        _updateValidator = updateValidator;
+    }
+
+    [HttpPost]
+    public TReadDto Create(TCreateDto createDto)
+    {
+        var validationResult = _createValidator.Validate(createDto);
+        if (!validationResult.IsValid)
+        {
+            _logger.LogError(&quot;Error trying to create entity with invalid model&quot;);
+
+            throw new InvalidModelException(validationResult.Errors.Select(e =&gt; e.ErrorMessage));
+        }
+
+        var entity = _mapper.Map&lt;TEntity&gt;(createDto);
+        _repository.Create(entity);
+        return _mapper.Map&lt;TReadDto&gt;(entity);
+    }
+
+    [HttpGet]
+    public IEnumerable&lt;TReadDto&gt; GetAll()
+    {
+        var entities = _repository.GetAllReadOnly();
+        return _mapper.Map&lt;IEnumerable&lt;TReadDto&gt;&gt;(entities);
+    }
+
+    public IEnumerable&lt;TReadDto&gt; GetAllPaginated(int skip, int take)
+    {
+        var entities = _repository.GetAllReadOnlyPaginated(skip, take);
+        return _mapper.Map&lt;IEnumerable&lt;TReadDto&gt;&gt;(entities);
+    }
+
+    public TReadDto? Get(int id)
+    {
+        var entity = _repository.Get(id);
+        return entity is null ? null : _mapper.Map&lt;TReadDto&gt;(entity);
+    }
+
+    public TReadDto Update(int id, TUpdateDto updateDto)
+    {
+        var validationResult = _updateValidator.Validate(updateDto);
+        if (!validationResult.IsValid)
+        {
+            _logger.LogError(&quot;Error trying to update entity {id} with invalid model&quot;, id);
+            throw new InvalidModelException(validationResult.Errors.Select(e =&gt; e.ErrorMessage));
+        }
+
+
+        var entity = _repository.Get(id);
+        if (entity is null)
+            throw new NotFoundEntityException(typeof(TEntity), id);
+
+        _mapper.Map(updateDto, entity);
+        _repository.Update(entity);
+        return _mapper.Map&lt;TReadDto&gt;(entity);
+    }
+
+    public void Delete(int id)
+    {
+        var entity = _repository.Get(id);
+        if (entity is null)
+            throw new NotFoundEntityException(typeof(TEntity), id);
+
+        _repository.Delete(entity);
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[24,5,24,238,0],[25,5,25,6,0],[26,9,26,26,0],[27,9,27,34,0],[28,9,28,26,0],[29,9,29,44,0],[30,9,30,44,0],[31,5,31,6,0],[35,5,35,6,0],[36,9,36,69,0],[37,9,37,39,0],[38,9,38,10,0],[39,13,39,82,0],[41,13,41,81,0],[41,81,41,95,0],[41,95,41,98,0],[44,9,44,54,0],[45,9,45,36,0],[46,9,46,46,0],[47,5,47,6,0],[51,5,51,6,0],[52,9,52,53,0],[53,9,53,61,0],[54,5,54,6,0],[57,5,57,6,0],[58,9,58,72,0],[59,9,59,61,0],[60,5,60,6,0],[63,5,63,6,0],[64,9,64,42,0],[65,9,65,70,0],[66,5,66,6,0],[69,5,69,6,0],[70,9,70,69,0],[71,9,71,39,0],[72,9,72,10,0],[73,13,73,91,0],[74,13,74,81,0],[74,81,74,95,0],[74,95,74,98,0],[78,9,78,42,0],[79,9,79,28,0],[80,13,80,68,0],[82,9,82,40,0],[83,9,83,36,0],[84,9,84,46,0],[85,5,85,6,0],[88,5,88,6,0],[89,9,89,42,0],[90,9,90,28,0],[91,13,91,68,0],[93,9,93,36,0],[94,5,94,6,0]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>/home/macwdo/Work/MacedoAzevedo/Macedo-azevedo-cs/Ma.API/Validators/CpfValidator.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using FluentValidation;
+
+namespace Ma.API.Validators;
+
+public class CpfValidator: AbstractValidator&lt;string&gt;
+{
+    public CpfValidator()
+    {
+        RuleFor(x =&gt; x)
+            .NotEmpty()
+            .Must(x =&gt; x.Length == 11)
+            .WithMessage(&quot;Cpf must have 11 characters&quot;)
+            .Must(x =&gt; x.All(char.IsDigit))
+            .WithMessage(&quot;Cpf must have only digits&quot;)
+            .Must(BeAValidCpf)
+            .WithMessage(&quot;Cpf is invalid&quot;);
+    }
+
+    private static bool BeAValidCpf(string cpf)
+    {
+        // Remove non-numeric characters
+        cpf = new string(cpf.Where(char.IsDigit).ToArray());
+
+        // Check if the CPF has 11 digits
+        if (cpf.Length != 11)
+        {
+            return false;
+        }
+
+        // Validate CPF algorithm
+        int[] multiplier1 = { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+        int[] multiplier2 = { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+
+        var tempCpf = cpf.Substring(0, 9);
+
+        var sum = 0;
+        for (var i = 0; i &lt; 9; i++)
+        {
+            sum += int.Parse(tempCpf[i].ToString()) * multiplier1[i];
+        }
+
+        var remainder = sum % 11;
+        remainder = remainder &lt; 2 ? 0 : 11 - remainder;
+
+        var digit = remainder.ToString();
+        tempCpf += digit;
+
+        sum = 0;
+        for (var i = 0; i &lt; 10; i++)
+        {
+            sum += int.Parse(tempCpf[i].ToString()) * multiplier2[i];
+        }
+
+        remainder = sum % 11;
+        remainder = remainder &lt; 2 ? 0 : 11 - remainder;
+
+        digit += remainder;
+        return cpf.EndsWith(digit);
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[7,5,7,26,0],[8,5,8,6,0],[9,9,11,24,0],[11,24,11,38,0],[11,38,13,24,0],[13,24,13,43,0],[13,43,16,44,0],[17,5,17,6,0],[20,5,20,6,0],[22,9,22,61,0],[25,9,25,30,0],[26,9,26,10,0],[27,13,27,26,0],[31,9,31,60,0],[32,9,32,64,0],[34,9,34,43,0],[36,9,36,21,0],[37,14,37,23,0],[37,25,37,30,0],[37,32,37,35,0],[38,9,38,10,0],[39,13,39,70,0],[40,9,40,10,0],[42,9,42,34,0],[43,9,43,56,0],[45,9,45,42,0],[46,9,46,26,0],[48,9,48,17,0],[49,14,49,23,0],[49,25,49,31,0],[49,33,49,36,0],[50,9,50,10,0],[51,13,51,70,0],[52,9,52,10,0],[54,9,54,30,0],[55,9,55,56,0],[57,9,57,28,0],[58,9,58,36,0],[59,5,59,6,0]]);
+    </script>
+  </body>
+</html>

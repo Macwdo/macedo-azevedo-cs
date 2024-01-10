@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>/home/macwdo/Work/MacedoAzevedo/Macedo-azevedo-cs/Ma.Api.Test/Fixtures/Dtos/LawyerDtoFixtures.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Ma.API.DTOs.User;
+using Ma.API.Models.Lawyer;
+
+namespace Ma.Api.Test.Fixtures.Dtos;
+
+public class LawyerDtoFixtures
+{
+    public static ReadLawyerDto ReadLawyerDtoFixture(int id, ReadUserDto? user) =&gt; new ReadLawyerDto(
+        id + 1,
+        $&quot;Test Lawyer Name&quot;,
+        $&quot;lawyer.something{id}@email.com&quot;,
+        $&quot;999.999.999-{id}&quot;,
+        $&quot;999999&quot;,
+        user,
+        DateTime.Now,
+        DateTime.Now
+    );
+
+    public static IEnumerable&lt;ReadLawyerDto&gt; ReadLawyersDtoFixture (int quantity, bool user=true)
+    {
+        var users = user ? UserDtoFixtures.ReadUsersDtoFixture(quantity): new List&lt;ReadUserDto&gt;();
+        var lawyers = Enumerable.Range(1, quantity + 1).Select(i =&gt; ReadLawyerDtoFixture(i, users.ElementAtOrDefault(i)));
+        return lawyers;
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[8,84,17,6,0],[20,5,20,6,0],[21,9,21,99,0],[22,9,22,69,0],[22,69,22,121,0],[22,121,22,123,0],[23,9,23,24,0],[24,5,24,6,0]]);
+    </script>
+  </body>
+</html>

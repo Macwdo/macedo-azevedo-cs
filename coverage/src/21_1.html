@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>/home/macwdo/Work/MacedoAzevedo/Macedo-azevedo-cs/Ma.API/Exceptions/NotFoundEntityException.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+namespace Ma.API.Exceptions;
+
+public class NotFoundEntityException: InternalException
+{
+
+    public NotFoundEntityException(int id) : base($&quot;Entity with id {id} not found. Cannot delete entity with id {id}&quot;)
+    {
+    }
+
+    public NotFoundEntityException(string entityName, int id) : base($&quot;{entityName} with id {id} not found. Cannot delete entity with id {id}&quot;)
+    {
+    }
+
+    public NotFoundEntityException(Type entityType, int id) : base($&quot;{entityType} with id {id} not found. Cannot delete entity with id {id}&quot;)
+    {
+    }
+
+    public NotFoundEntityException(string? message) : base(message)
+    {
+
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[6,46,6,119,0],[7,5,7,6,0],[8,5,8,6,0],[10,65,10,144,0],[11,5,11,6,0],[12,5,12,6,0],[14,63,14,142,0],[15,5,15,6,0],[16,5,16,6,0],[18,55,18,68,0],[19,5,19,6,0],[21,5,21,6,0]]);
+    </script>
+  </body>
+</html>

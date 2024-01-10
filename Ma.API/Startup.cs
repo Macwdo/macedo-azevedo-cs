@@ -137,7 +137,7 @@ public class Startup
 
         var connectionString = Configuration.GetConnectionString("postgres");
         // TODO: Add integration test, add lazy loading
-        services.AddNpgsql<ApplicationContext>(connectionString);
+        services.AddNpgsql<ApplicationDbContext>(connectionString);
 
     }
 
