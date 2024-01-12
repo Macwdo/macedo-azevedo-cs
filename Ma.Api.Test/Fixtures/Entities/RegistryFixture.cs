@@ -7,8 +7,6 @@ public static class RegistryFixture
     public static RegistryEntity Registry(int id, LawyerEntity? lawyer=null) => new RegistryEntity
     {
         Id = id,
-        CreatedAt = DateTime.Now,
-        UpdatedAt = DateTime.Now,
         Name = "Registry",
         Email = "registry.email@ema.com",
         Image = new Uri("https://www.google.com.br"),

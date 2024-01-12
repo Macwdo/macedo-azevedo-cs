@@ -12,6 +12,8 @@ public class WebApplicationFixture: IAsyncLifetime
 
     public HttpClient Client { get; set; }
 
+    public ApplicationDbContext DbContext => _factory.Services.GetRequiredService<ApplicationDbContext>();
+
     public WebApplicationFixture()
     {
         _factory =  new WebApplicationFactory<Program>()

@@ -10,7 +10,7 @@ public static class RegistryDtoFixtures
         string name = "Test Registry Name",
         string email = "registry.email@mail.com",
         Uri? image = null,
-        int lawyerId = 1
+        int? lawyerId = null
     ) => new CreateRegistryDto(
             name,
             email,
