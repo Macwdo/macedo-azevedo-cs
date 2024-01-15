@@ -43,7 +43,7 @@ public class RegistryService: IRegistryService
 
     public IEnumerable<ReadRegistryDto> GetRegistries()
     {
-        var registries = _repository.GetAllReadOnly();
+        var registries = _repository.Get();
         var readRegistriesDto = _mapper.Map<IEnumerable<ReadRegistryDto>>(registries);
         return readRegistriesDto;
     }

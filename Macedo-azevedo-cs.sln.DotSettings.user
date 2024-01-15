@@ -2,15 +2,27 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/usr/lib/dotnet/packs/Microsoft.NETCore.App.Ref/7.0.14/ref/net7.0/System.Net.Requests.dll" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
-	
-	
-	
-	
-	
-	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a686a01c_002Dde8a_002D4345_002Da0ac_002D87cecd28315e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestGet_WhenSuccess_ShouldReturns201" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2508a41e_002Da62d_002D484e_002Db8bf_002D4f566dadd9a3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4c658d1b_002Df6a5_002D4416_002Da86f_002Da22532ce2ff3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WhenPost_OnValidBody_ShouldCreate" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::0C4740BB-0F25-434A-85AE-7BD27F972132::net7.0::Ma.Api.Test.System.IntegrationTests.Controllers.RegistryControllerTest.TestGet_WhenSuccess_ShouldReturns201&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::0C4740BB-0F25-434A-85AE-7BD27F972132::net7.0::Ma.Api.Test.System.IntegrationTests.Controllers.RegistryControllerTest.WhenPost_OnValidBody_ShouldCreate&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d51697a5_002D01a7_002D484d_002Da2de_002D510602e7b4f3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="WhenPost_OnValidBody_ShouldCreate #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::0C4740BB-0F25-434A-85AE-7BD27F972132::net7.0::Ma.Api.Test.System.IntegrationTests.Controllers.RegistryControllerTest.WhenPost_OnValidBody_ShouldCreate&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::0C4740BB-0F25-434A-85AE-7BD27F972132::net7.0::Ma.Api.Test.System.IntegrationTests.Controllers.RegistryControllerTest.TaskGet_WhenSuccess_ShouldReturnsRegistries&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	</wpf:ResourceDictionary>

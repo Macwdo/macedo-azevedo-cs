@@ -82,9 +82,11 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : Base
             _dbContext.SaveChanges();
     }
 
-    public Task<TEntity> CreateAsync(TEntity entity)
+    public async Task<TEntity> CreateAsync(TEntity entity)
     {
-        throw new NotImplementedException();
+        await _dbContext.Set<TEntity>().AddAsync(entity);
+        await _dbContext.SaveChangesAsync();
+        return entity;
     }
 
     public Task<IEnumerable<TEntity>> GetAsync()

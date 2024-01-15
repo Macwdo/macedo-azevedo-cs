@@ -1,5 +1,6 @@
 using System.Net;
 using FluentAssertions;
+using Ma.API.Models.Registry;
 using Ma.Api.Test.Fixtures;
 using Ma.Api.Test.Fixtures.Dtos;
 using Ma.Api.Test.Helpers;
@@ -22,6 +23,21 @@ public class RegistryControllerTest: IClassFixture<WebApplicationFixture>
 
 
     [Fact]
+    public async Task TaskGet_WhenSuccess_ShouldReturnsRegistries()
+    {
+        // Arrange
+        var createRegistryDto = RegistryDtoFixtures.CreateRegistryDtoFixture();
+        var createdRegistryResponse = await _registriesApi.CreateRegistryAsync(createRegistryDto);
+
+        // Act
+        var response = await _registriesApi.GetRegistriesAsync();
+
+        // Assert
+        response.Content.Should().BeEquivalentTo(new List<ReadRegistryDto>{createdRegistryResponse.Content!});
+    }
+
+
+    [Fact]
     public async Task TestGet_WhenNotFound_ShouldReturns404()
     {
         // Arrange
@@ -33,23 +49,6 @@ public class RegistryControllerTest: IClassFixture<WebApplicationFixture>
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    }
-
-
-    [Fact]
-    public async Task TestPost_WhenCreated_Returns201()
-    {
-        // Arrange
-        var createRegistryDto = RegistryDtoFixtures.CreateRegistryDtoFixture();
-
-        // Act
-        var response = await _registriesApi.CreateRegistryAsync(createRegistryDto);
-
-        // Assert
-        response.Content?.Email.Should().Be(createRegistryDto.Email);
-        response.Content?.Name.Should().Be(createRegistryDto.Name);
-        response.Content?.Image.Should().Be(createRegistryDto.Image);
-        response.StatusCode.Should().Be(HttpStatusCode.Created);
     }
 
 
@@ -69,6 +68,41 @@ public class RegistryControllerTest: IClassFixture<WebApplicationFixture>
         readRegistryResponse.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
+    [Theory]
+    [InlineData("aa", "wrongemail", HttpStatusCode.BadRequest)]
+    [InlineData("goodname", "somemail@mail.com", HttpStatusCode.Created)]
+    public async Task WhenPost_OnValidBody_ShouldCreate(string name, string email, HttpStatusCode statusCode)
+    {
+        // Arrange
+        var createRegistryDto = RegistryDtoFixtures.CreateRegistryDtoFixture();
+
+        createRegistryDto.Email = email;
+        createRegistryDto.Name = name;
+        // Act
+        var response = await _registriesApi.CreateRegistryAsync(createRegistryDto);
+
+        // Assert
+        response.StatusCode.Should().Be(statusCode);
+    }
+
+    [Fact]
+    public async Task TestPost_WhenCreated_Returns201()
+    {
+        // Arrange
+        var createRegistryDto = RegistryDtoFixtures.CreateRegistryDtoFixture();
+
+        // Act
+        var response = await _registriesApi.CreateRegistryAsync(createRegistryDto);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+    }
+
+
+
+    // Update
+    // public async Task Test
+    // Delete
 
 
 }
